@@ -1,0 +1,291 @@
+@startuml
+
+Abstract Class Game{
+    +create()
+    +resume()
+    +pause()
+    +dispose()
+}
+
+Abstract Class MyGame{
+    +create()
+    +setScreen(Screen screen)
+    +setScreen(Screen screen, boolean pushToStack)
+    +void setScreenBackByStackPop()
+}
+
+Class MyGdxGame{
+
+}
+
+Game <|--MyGame
+MyGame <|--MyGdxGame
+
+Interface Screen{
+    +dispose()
+    +hide()
+    +pause()
+    +resume()
+    +show()
+    +render(float delta)
+    +resize(int width, int height)
+}
+
+Screen <|--MyScreen
+
+Abstract Class MyScreen{
+    +{static}float WORLD_WIDTH = 640, WORLD_HEIGHT = 480;
+    #Game game
+    #float r, g, b
+    #SpriteBatch spriteBatch
+    #OrthographicCamera camera
+    #ExtendViewport viewport
+    +MyScreen(Game game)
+    +Game getGame()
+    +setBackGroundColor(float r, float g, float b)
+}
+
+
+
+
+MyScreen <|-- LoadingScreen
+Class LoadingScreen{
+}
+
+MyScreen <|-- MenuScreen
+Class MenuScreen{
+}
+
+
+MyScreen <|-- InputScreen
+Class InputScreen{
+}
+
+MyScreen <|-- OtherScreen
+Class OtherScreen{
+}
+
+
+
+
+Class Stage{
+    +act(float delta)
+    +dispose()
+    +..............
+    +..............()
+}
+
+Abstract Class MyStage{
+    #Game game
+    +MyStage(Game game)
+    +MyStage(Viewport viewport, Game game)
+    +MyStage(Viewport viewport, Batch batch, Game game)
+    +{abstract}init(Game game)
+    +addBackEventStackListener()
+    +getLastAdded()
+    +setCameraZoomXY(float x, float y, float zoom)
+    +setCameraMoveToXY(float x, float y, float zoom, float speed)
+    +setCameraResetToCenterOfScreen()
+    +setCameraResetToLeftBottomOfScreen()
+    +resize(int screenWidth, int screenHeight)
+    #resized()
+    +act(float delta)
+}
+Stage <|-- MyStage
+
+
+Class MenuStage{
+    -BadlActor badlActor;
+    -CrossActor crossActor;
+    -TextButton textButton, textButton2;
+    -ExplosionActor explosionActor;
+    -MyLabel utkozesMyLabel;
+}
+MyStage <|-- MenuStage
+
+
+Class OtherStage{
+    -TextButton textButton
+}
+MyStage <|-- OtherStage
+
+Class InputStage<<anonimous>>{
+    -String random()
+    -Table table
+}
+MyStage <|-- InputStage
+
+
+
+ShapeType -- MyActor
+
+
+
+class Actor{
+    +act(float delta)
+    #sizeChanged()
+    #positionChanged()
+    #rotationChanged()
+    +draw(Batch batch, float parentAlpha)
+    +..............
+    +..............()
+}
+
+
+Abstract class MyActor{
+    #float elapsedTime = 0
+    #Rectangle rectangle
+    #Circle circle
+
+    +boolean overlaps(ShapeType shapeType, MyActor anotherActor)
+    +{static} boolean overlaps(ShapeType shapeType, MyActor actorA, MyActor actorB)
+    +resetElapsedTime()
+    +getElapsedTime()
+    +setElapsedTime(float elapsedTime)
+    +resetElapsedTime()
+    +getElapsedTime()
+    +setElapsedTime(float elapsedTime)
+    #sizeChanged()
+    #positionChanged()
+    +overlaps(ShapeType shapeType, MyActor anotherActor)
+    +<static>overlaps(ShapeType shapeType, MyActor actorA, MyActor actorB)
+}
+Actor <|-- MyActor
+
+enum ShapeType{
+    Circle
+    Rectangle
+}
+
+
+
+
+Abstract class OneSpriteActor{
+    #Sprite sprite
+    +OneSpriteActor(Sprite sprite)
+    #init()
+
+}
+MyActor <|-- OneSpriteActor
+
+class CrossActor{
+    +OneSpriteActor()
+}
+OneSpriteStaticActor <|-- CrossActor
+
+
+class BadlActor{
+    +BadlActor()
+}
+OneSpriteStaticActor <|-- BadlActor
+
+
+class StarActor{
+    +StarActor()
+}
+OneSpriteAnimatedActor <|-- StarActor
+
+
+class ExplosionActor{
+    +ExplosionActor()
+}
+OneSpriteAnimatedActor <|-- ExplosionActor
+
+class OneSpriteAnimatedActor{
+    #TextureAtlas textureAtlas
+    #float fps = 30
+    #boolean running = true
+    +OneSpriteAnimatedActor(String file)
+    +OneSpriteAnimatedActor(TextureAtlas textureAtlas)
+    +getFps()
+    +setFps(float fps)
+    +setFrame(int frame)
+    +setFramePercent(float percent)
+    +int getFrameCount()
+    +start()
+    +stop()
+    +TextureAtlas getTextureAtlas()
+}
+OneSpriteActor <|-- OneSpriteAnimatedActor
+
+
+class OneSpriteStaticActor{
+    +OneSpriteStaticActor(String file)
+    +OneSpriteStaticActor(Texture texture)
+    +Texture getTexture()
+}
+OneSpriteActor <|-- OneSpriteStaticActor
+
+
+
+
+Class Widget{
+
+}
+Actor <|-- Widget
+
+
+Class Label{
+
+}
+Widget <|-- Label
+
+
+Class MyLabel{
+
+}
+Label <|-- MyLabel
+
+
+Class TextField{
+
+}
+Widget <|-- TextField
+
+
+Class MyTextField{
+
+}
+TextField <|-- MyTextField
+
+
+Class Assets{
+    +{static} AssetManager manager
+    +{static} AssetDescriptor<Texture> BADLOGIC_TEXTURE
+    +{static} AssetDescriptor<Texture> CURSOR_TEXTURE
+    +{static} AssetDescriptor<Texture> TEXTBOX_TEXTURE
+    +{static} AssetDescriptor<TextureAtlas> EXPLOSION_TEXTUREATLAS
+    +{static} AssetDescriptor<TextureAtlas> STAR_TEXTUREATLAS
+    +{static} AssetDescriptor<Music> MUSIC
+    +{static} AssetDescriptor<Sound> SOUND
+
+    +{static} prepare()
+    +{static} load()
+    +{static} afterLoaded()
+    +{static} unload()
+}
+
+
+
+Class Globals{
+    +{static} String CHARS = "012345678..."
+    +{static} BitmapFont FONT_HOBO_STD
+}
+
+
+
+
+
+OtherScreen *-- OtherStage
+MenuScreen *-- MenuStage
+InputScreen *-- InputStage
+MenuStage *-- CrossActor
+MenuStage *-- BadlActor
+MenuStage *-- ExplosionActor
+MenuStage *-- StarActor
+MenuStage *-- MyLabel
+
+
+@enduml
+
+

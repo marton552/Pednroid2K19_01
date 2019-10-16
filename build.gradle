@@ -36,7 +36,6 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
-
 }
 
 project(":desktop") {
@@ -48,18 +47,6 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        compile fileTree(dir: 'libs', include: '*.jar')
-        
-    }
-}
-
-project(":core") {
-    apply plugin: "java-library"
-
-
-    dependencies {
-        api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile fileTree(dir: 'libs', include: '*.jar')
         
     }
@@ -86,5 +73,16 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
         compile fileTree(dir: 'libs', include: '*.so')
         
+    }
+}
+
+project(":core") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile fileTree(dir: 'libs', include: '*.jar')
     }
 }
