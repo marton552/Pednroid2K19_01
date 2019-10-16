@@ -27,6 +27,10 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
 public class MenuStage extends MyStage {
 
+
+    //http://www.patrickmatte.com/stuff/physicsLiquid/
+    //https://github.com/mattdesl/lwjgl-basics/wiki/ShaderLesson5#Ports - Blur
+    //https://github.com/libgdx/libgdx/wiki/Distance-field-fonts -- Alpha treshold
     private World mWorld;
     private ParticleSystem mParticleSystem;
     private ColorParticleRenderer mParticleDebugRenderer;
