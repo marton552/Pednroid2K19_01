@@ -55,7 +55,7 @@ public class MenuStage extends MyStage {
 
     public static final int FBO_SIZE = 60;//1024;
 
-    public static final float MAX_BLUR = 2f;
+    public static final float MAX_BLUR = 0.4f;
 
     final String VERT =
             "attribute vec4 "+ ShaderProgram.POSITION_ATTRIBUTE+";\n" +
@@ -95,7 +95,7 @@ public class MenuStage extends MyStage {
                     "    \n" +
                     "    float hstep = dir.x;\n" +
                     "    float vstep = dir.y;\n" +
-                    "    \n" +
+                    "    float gate = 0.2;\n" +
                     "	sum += texture2D(u_texture, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.05;\n" +
                     "	sum += texture2D(u_texture, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.09;\n" +
                     "	sum += texture2D(u_texture, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.12;\n" +
@@ -109,8 +109,12 @@ public class MenuStage extends MyStage {
                     "	sum += texture2D(u_texture, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.05;\n" +
                     "   \n" +
                     "   \n"+
-                    "	\n" +
-                    "   gl_FragColor = vec4(sum.rgb, 1);"+
+                    "   \n" +
+                    "   " +
+                    "   //vec4 t = texture2D(u_texture, tc);\n" +
+                    "//float c = step( 0.3,t.r);\n" +
+                    "gl_FragColor = vec4(sum.rgb,1.0);\n"+
+                    "   "+
                     "}";
 
     final String alphaVERT =
@@ -130,25 +134,18 @@ public class MenuStage extends MyStage {
                     "}";
     final String alphaFRAG = "#ifdef GL_ES\n" +
             "#define LOWP lowp\n" +
+            "#define MED mediump\n" +
             "precision mediump float;\n" +
             "#else\n" +
             "#define LOWP \n" +
+            "#define MED\n" +
             "#endif\n" +
-            "varying LOWP vec4 vColor;\n" +
+            "uniform MED sampler2D u_texture0;\n" +
             "varying vec2 vTexCoord;\n" +
-            "\n" +
-            "uniform sampler2D u_texture;\n" +
-            "\n" +
-            "\n" +
-            "void main() {\n" +
-                "\n" +
-                "vec4 texColor = texture2D(u_texture, vTexCoord);\n" +
-                "\n" +
-                "//invert the red, green and blue channels\n" +
-                "texColor.a = 1.5 - texColor.a;\n" +
-                "if(texColor.a < 0.6) discard;\n" +
-                "\n" +
-                "gl_FragColor = texColor;\n" +
+            "void main(){\n" +
+            "   vec4 t = texture2D(u_texture0, vTexCoord);\n" +
+            "   float c = step(0.15,t.r);\n" +
+            "   gl_FragColor = vec4(1, 0, 0, c);\n"+
             "}";
 
     private Sprite sprite;
@@ -403,12 +400,15 @@ public class MenuStage extends MyStage {
         getBatch().setShader(alphaTresholdShader);
         getBatch().draw(fboRegion, 0, 0);
         getBatch().setShader(null);
+
         getBatch().end();
 
         //mParticleDebugRenderer.render(mParticleSystem, BOX_TO_WORLD, getCamera().combined);
 
         //render box2d
         mDebugRenderer.render(mWorld, getCamera().combined);
+
+
     }
 
     @Override
