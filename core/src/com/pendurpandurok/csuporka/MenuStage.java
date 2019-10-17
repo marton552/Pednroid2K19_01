@@ -55,7 +55,7 @@ public class MenuStage extends MyStage {
 
     public static final int FBO_SIZE = 60;//1024;
 
-    public static final float MAX_BLUR = 0.4f;
+    public static final float MAX_BLUR = 0.22f;
 
     final String VERT =
             "attribute vec4 "+ ShaderProgram.POSITION_ATTRIBUTE+";\n" +
@@ -144,8 +144,8 @@ public class MenuStage extends MyStage {
             "varying vec2 vTexCoord;\n" +
             "void main(){\n" +
             "   vec4 t = texture2D(u_texture0, vTexCoord);\n" +
-            "   float c = step(0.15,t.r);\n" +
-            "   gl_FragColor = vec4(1, 0, 0, c);\n"+
+            "   float c = step(0.55,t.r);\n" +
+            "   gl_FragColor = vec4(t.r, 0, 0, c);\n"+
             "}";
 
     private Sprite sprite;
@@ -372,6 +372,8 @@ public class MenuStage extends MyStage {
         float mouseXAmt = Gdx.input.getX() / (float)Gdx.graphics.getWidth();
         //blurShader.setUniformf("radius", mouseXAmt * MAX_BLUR);
         blurShader.setUniformf("radius",  MAX_BLUR);
+        //System.out.println("x: "+(mouseXAmt * MAX_BLUR));
+
 
         //our first blur pass goes to target B
         blurTargetB.begin();
@@ -393,7 +395,7 @@ public class MenuStage extends MyStage {
 
         float mouseYAmt = Gdx.input.getY() / (float)Gdx.graphics.getHeight();
         //blurShader.setUniformf("radius", mouseYAmt * MAX_BLUR);
-        blurShader.setUniformf("radius", MAX_BLUR);
+        blurShader.setUniformf("radius", MAX_BLUR - 0.11f);
 
         fboRegion.setTexture(blurTargetB.getColorBufferTexture());
 
