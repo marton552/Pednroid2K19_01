@@ -89,5 +89,6 @@
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-freetype:1.9.10@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx:1.9.10@jar" level="project" />
     <orderEntry type="module" module-name="core" />
+    <orderEntry type="module" module-name="core" />
   </component>
 </module>
