@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -29,6 +30,7 @@ import finnstr.libgdx.liquidfun.ParticleSystemDef;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.csanyzeg.master.MyBaseClasses.UI.MyButton;
 
 public class MenuStage extends MyStage {
 
@@ -52,7 +54,7 @@ public class MenuStage extends MyStage {
 
     RealisticWater rw;
 
-    public MenuStage(Batch batch, MyGame game) {
+    public MenuStage(Batch batch, MyGdxGame game) {
         super(new ExtendViewport(1920f / 32, 1080f / 32), batch, game);
 
         actor = new OneSpriteStaticActor(Assets.manager.get(Assets.BADLOGIC_TEXTURE));
@@ -71,7 +73,7 @@ public class MenuStage extends MyStage {
         sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
         sprite.setPosition(0, 0);*/
 
-        createBox2DWorld(width, height);
+        createBox2DWorld(width, height, game);
         createParticleStuff(width, height);
 
 
@@ -84,10 +86,11 @@ public class MenuStage extends MyStage {
 
     }
 
-    public void createRectangle(float posX, float posY, float width, float height) {
+    public void createRectangle(float posX, float posY, float width, float height, float angle) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(posX, posY);
+        bodyDef.angle = angle;
 
         Body body = mWorld.createBody(bodyDef);
 
@@ -104,10 +107,15 @@ public class MenuStage extends MyStage {
     }
 
 
-    private void createBox2DWorld(float width, float height) {
+    private void createBox2DWorld(float width, float height, MyGdxGame g) {
         mWorld = new World(new Vector2(0, -9.8f), false);
 
-        createRectangle(10, 10, 10, 10);
+        createRectangle(15, 10, 10, 2, 0);
+        createRectangle(20, 13, 2, 7, 170* MathUtils.degreesToRadians);
+        createRectangle(10, 13, 2, 7, 190* MathUtils.degreesToRadians);
+
+
+
         //getCamera().position.y -= 5;
 
         /*
@@ -225,7 +233,6 @@ public class MenuStage extends MyStage {
     public void draw() {
         mWorld.step(Gdx.graphics.getDeltaTime(), 10, 6, mParticleSystem.calculateReasonableParticleIterations(Gdx.graphics.getDeltaTime()));
 
-        super.draw();
 
         //draw our scene here
         //actor.draw(getBatch(), 1f);
@@ -244,6 +251,7 @@ public class MenuStage extends MyStage {
         //render box2d
         mDebugRenderer.render(mWorld, getCamera().combined);
 
+        super.draw();
 
 
     }

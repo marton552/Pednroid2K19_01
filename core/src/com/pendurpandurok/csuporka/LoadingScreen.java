@@ -6,9 +6,10 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyScreen;
 
 public class LoadingScreen extends MyScreen {
 
-
+    private MyGdxGame g;
     public LoadingScreen(MyGdxGame game) {
         super(game);
+        this.g = game;
     }
 
 
@@ -24,7 +25,7 @@ public class LoadingScreen extends MyScreen {
 
         if (Assets.manager.update()) {
             Assets.afterLoaded();
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(new MenuScreen(g));
         }
     }
 

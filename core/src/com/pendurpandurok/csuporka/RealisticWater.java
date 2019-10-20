@@ -140,7 +140,7 @@ public class RealisticWater {
         //setup uniforms for our shader
         blurShader.begin();
         blurShader.setUniformf("dir", 0f, 0f);
-        blurShader.setUniformf("resolution", FBO_SIZE);
+        blurShader.setUniformf("resolution", viewportW);
         blurShader.setUniformf("radius", 1f);
         blurShader.end();
 
