@@ -110,9 +110,14 @@ public class MenuStage extends MyStage {
     private void createBox2DWorld(float width, float height, MyGdxGame g) {
         mWorld = new World(new Vector2(0, -9.8f), false);
 
-        createRectangle(15, 10, 10, 2, 0);
-        createRectangle(20, 13, 2, 7, 170* MathUtils.degreesToRadians);
-        createRectangle(10, 13, 2, 7, 190* MathUtils.degreesToRadians);
+        createRectangle(15, 5, 10, 2, 0);
+        createRectangle(20, 8, 2, 7, 170* MathUtils.degreesToRadians);
+        createRectangle(10, 8, 2, 7, 190* MathUtils.degreesToRadians);
+
+
+        createRectangle(width - 15, 5, 10, 2, 0);
+        createRectangle(width - 20, 8, 2, 7, 190* MathUtils.degreesToRadians);
+        createRectangle(width - 10, 8, 2, 7, 170* MathUtils.degreesToRadians);
 
 
 
@@ -159,12 +164,11 @@ public class MenuStage extends MyStage {
         //First we create a new particlesystem and
         //set the radius of each particle to 6 / 120 m (5 cm)
         ParticleSystemDef systemDef = new ParticleSystemDef();
-        systemDef.radius = 0.08f * WORLD_TO_BOX;
+        systemDef.radius = 0.2f;
         systemDef.dampingStrength = 0.6f;
-        systemDef.gravityScale = 1f;
 
         mParticleSystem = new ParticleSystem(mWorld, systemDef);
-        mParticleSystem.setParticleDensity(1000f);
+        mParticleSystem.setParticleDensity(2f);
 
         //Create a new particlegroupdefinition and set some properties
         //For the flags you can set more than only one
@@ -180,15 +184,15 @@ public class MenuStage extends MyStage {
         //The shape defines where the particles are created exactly
         //and how much are created
         PolygonShape parShape = new PolygonShape();
-        parShape.setAsBox(width * (20f / 100f) * WORLD_TO_BOX / 2f, width * (20f / 100f) * WORLD_TO_BOX / 2f);
+        parShape.setAsBox(2 / 2f, 10 / 2f);
         //parShape.setAsBox(10, 10);
         //parShape.setRadius(1f);
         mParticleGroupDef1.shape = parShape;
-        mParticleSystem.createParticleGroup(mParticleGroupDef1);
+        //mParticleSystem.createParticleGroup(mParticleGroupDef1);
 
         //Exactly the same! This is the second group with a different
         //color and shifted on the x-Axis
-        mParticleGroupDef2 = new ParticleGroupDef();
+        /*mParticleGroupDef2 = new ParticleGroupDef();
         mParticleGroupDef2.shape = mParticleGroupDef1.shape;
         mParticleGroupDef2.flags = mParticleGroupDef1.flags;
         mParticleGroupDef2.groupFlags = mParticleGroupDef1.groupFlags;
@@ -206,28 +210,32 @@ public class MenuStage extends MyStage {
         mParticleGroupDef2.shape = partShape;
 
         mParticleGroupDef1.linearVelocity.set(new Vector2(0, -10f));
-        mParticleGroupDef2.linearVelocity.set(new Vector2(0, -10f));
+        mParticleGroupDef2.linearVelocity.set(new Vector2(0, -10f));*/
     }
 
-    public void createParticles1(float pX, float pY) {
-        mParticleGroupDef1.position.set(pX * WORLD_TO_BOX, pY * WORLD_TO_BOX);
+    public void createParticles(float pX, float pY) {
+        mParticleGroupDef1.position.set(pX, pY);
         mParticleSystem.createParticleGroup(mParticleGroupDef1);
-        //updateParticleCount();
-    }
-
-    private void createParticles2(float pX, float pY) {
-        mParticleGroupDef2.position.set(pX * WORLD_TO_BOX, pY * WORLD_TO_BOX);
-        mParticleSystem.createParticleGroup(mParticleGroupDef2);
         updateParticleCount();
     }
 
     private void updateParticleCount() {
         if(mParticleSystem.getParticleCount() > mParticleDebugRenderer.getMaxParticleNumber()) {
-            mParticleDebugRenderer.setMaxParticleNumber(mParticleSystem.getParticleCount() + 1000);
+            mParticleDebugRenderer.setMaxParticleNumber(mParticleSystem.getParticleCount() + 10);
         }
     }
 
+    int counter = 0;
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        counter++;
+        if(counter % MathUtils.random(80, 1000) == 0)
+            createParticles(15, getViewport().getWorldHeight() + 10);
+        if(counter % MathUtils.random(80, 1000) == 0)
+            createParticles(getViewport().getWorldWidth() - 15, getViewport().getWorldHeight() + 10);
 
+    }
 
     @Override
     public void draw() {
