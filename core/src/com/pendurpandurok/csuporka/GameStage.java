@@ -33,9 +33,9 @@ public class GameStage extends MyStage {
 
 
     public GameStage(Batch batch, MyGame game) {
-        super(new ExtendViewport(1920f / 32, 1080f / 32), batch, game);
+        super(new ExtendViewport(1080 / 32, 1920 / 32), batch, game);
 
-        rw = new RealisticWater(batch, getCamera(), 1920f / 32, 1080f / 32);
+        rw = new RealisticWater(batch, getCamera(), getViewport().getWorldWidth(), getViewport().getWorldHeight());
 
 
         mWorld = new World(new Vector2(0, -9.2f), false);

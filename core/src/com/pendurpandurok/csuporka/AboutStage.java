@@ -9,7 +9,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 
 public class AboutStage extends MyStage {
     public AboutStage(Batch batch, MyGame game) {
-        super(new ExtendViewport(1920f / 32, 1080f / 32), batch, game);
+        super(new ExtendViewport(1080f / 32, 1920f / 32), batch, game);
 
     }
 

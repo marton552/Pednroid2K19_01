@@ -1,6 +1,7 @@
 package com.pendurpandurok.csuporka;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -44,7 +45,6 @@ public class MenuStage extends MyStage {
     private Box2DDebugRenderer mDebugRenderer;
 
     private ParticleGroupDef mParticleGroupDef1;
-    private ParticleGroupDef mParticleGroupDef2;
 
     private final static float BOX_TO_WORLD = 1f;
     private final static float WORLD_TO_BOX = 1f / BOX_TO_WORLD;
@@ -55,13 +55,9 @@ public class MenuStage extends MyStage {
     RealisticWater rw;
 
     public MenuStage(Batch batch, MyGdxGame game) {
-        super(new ExtendViewport(1920f / 32, 1080f / 32), batch, game);
-
-        actor = new OneSpriteStaticActor(Assets.manager.get(Assets.BADLOGIC_TEXTURE));
-        actor.setSize(5, 5);
-        //addActor(actor);
-
-        rw = new RealisticWater(batch, getCamera(), 1920f / 32, 1080f / 32);
+        super(new ExtendViewport(1080 / 32f, 1920 / 32f), batch, game);
+        System.out.println( getCamera().viewportWidth);
+        rw = new RealisticWater(batch, getCamera(), getViewport().getWorldWidth(), getViewport().getWorldHeight());
 
 
         mWorld = new World(new Vector2(0, -9.2f), false);
@@ -110,14 +106,14 @@ public class MenuStage extends MyStage {
     private void createBox2DWorld(float width, float height, MyGdxGame g) {
         mWorld = new World(new Vector2(0, -9.8f), false);
 
-        createRectangle(15, 5, 10, 2, 0);
-        createRectangle(20, 8, 2, 7, 170* MathUtils.degreesToRadians);
-        createRectangle(10, 8, 2, 7, 190* MathUtils.degreesToRadians);
+        createRectangle(7, 5, 10, 2, 0);
+        createRectangle(12, 8, 2, 7, 170* MathUtils.degreesToRadians);
+        createRectangle(2, 8, 2, 7, 190* MathUtils.degreesToRadians);
 
 
-        createRectangle(width - 15, 5, 10, 2, 0);
-        createRectangle(width - 20, 8, 2, 7, 190* MathUtils.degreesToRadians);
-        createRectangle(width - 10, 8, 2, 7, 170* MathUtils.degreesToRadians);
+        createRectangle(width - 14, 5, 10, 2, 0);
+        createRectangle(width - 19, 8, 2, 7, 190* MathUtils.degreesToRadians);
+        createRectangle(width - 9, 8, 2, 7, 170* MathUtils.degreesToRadians);
 
 
 
@@ -231,7 +227,7 @@ public class MenuStage extends MyStage {
         super.act(delta);
         counter++;
         if(counter % MathUtils.random(80, 1000) == 0)
-            createParticles(15, getViewport().getWorldHeight() + 10);
+            createParticles(11, getViewport().getWorldHeight() + 10);
         if(counter % MathUtils.random(80, 1000) == 0)
             createParticles(getViewport().getWorldWidth() - 15, getViewport().getWorldHeight() + 10);
 
@@ -246,7 +242,7 @@ public class MenuStage extends MyStage {
         //actor.draw(getBatch(), 1f);
 
         rw.startRender();
-            mParticleDebugRenderer.render(mParticleSystem, BOX_TO_WORLD, getCamera().combined);
+            mParticleDebugRenderer.render(mParticleSystem, 1, getCamera().combined);
         rw.stopRender();
 
         //mDebugRenderer.render(mWorld, getCamera().combined);
