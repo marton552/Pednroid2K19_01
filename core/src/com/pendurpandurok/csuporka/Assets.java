@@ -42,6 +42,18 @@ public class Assets {
     //Button
     public static final AssetDescriptor<Texture> BTN_BACK = new AssetDescriptor<Texture>("ui_textures/btn_back.png", Texture.class);
     public static final AssetDescriptor<Texture> BTN_HOVER = new AssetDescriptor<Texture>("ui_textures/btn_hover.png", Texture.class);
+    public static final AssetDescriptor<Texture> BETTER_PROF = new AssetDescriptor<Texture>("better_prof.png", Texture.class);
+    public static final AssetDescriptor<Texture> PROF = new AssetDescriptor<Texture>("prof.png", Texture.class);
+    public static final AssetDescriptor<Texture> CSAP = new AssetDescriptor<Texture>("csap.png", Texture.class);
+    public static final AssetDescriptor<Texture> JESUS = new AssetDescriptor<Texture>("Jesus.png", Texture.class);
+    public static final AssetDescriptor<Texture> KACSA = new AssetDescriptor<Texture>("kaca.png", Texture.class);
+    public static final AssetDescriptor<Texture> HAJO = new AssetDescriptor<Texture>("papperHajo.png", Texture.class);
+    public static final AssetDescriptor<Texture> T_HATTER = new AssetDescriptor<Texture>("T_Hatter.png", Texture.class);
+    public static final AssetDescriptor<Texture> T_SZEG = new AssetDescriptor<Texture>("T_szeg.png", Texture.class);
+    public static final AssetDescriptor<Texture> TART_HATTER = new AssetDescriptor<Texture>("Tart_Hatter.png", Texture.class);
+    public static final AssetDescriptor<Texture> TART_SZEG = new AssetDescriptor<Texture>("Tart_szeg.png", Texture.class);
+    public static final AssetDescriptor<Texture> VODOR_HATTER = new AssetDescriptor<Texture>("vodor.png", Texture.class);
+    public static final AssetDescriptor<Texture> BAR = new AssetDescriptor<Texture>("bar.png", Texture.class);
 
 
     //Stb.
@@ -64,6 +76,19 @@ public class Assets {
         //Btn
         manager.load(BTN_BACK);
         manager.load(BTN_HOVER);
+        manager.load(BETTER_PROF);
+        manager.load(PROF);
+        manager.load(CSAP);
+        manager.load(JESUS);
+        manager.load(KACSA);
+        manager.load(HAJO);
+        manager.load(T_HATTER);
+        manager.load(T_SZEG);
+        manager.load(TART_HATTER);
+        manager.load(TART_SZEG);
+        manager.load(VODOR_HATTER);
+        manager.load(BAR);
+
 
         manager.load(ALEGREYAREGULAR_FONT);
 

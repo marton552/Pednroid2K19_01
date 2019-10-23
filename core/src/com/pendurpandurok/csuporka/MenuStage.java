@@ -54,11 +54,16 @@ public class MenuStage extends MyStage {
 
     RealisticWater rw;
 
+    OneSpriteStaticActor vodor1;
+
     public MenuStage(Batch batch, MyGdxGame game) {
         super(new ExtendViewport(1080 / 32f, 1920 / 32f), batch, game);
         System.out.println( getCamera().viewportWidth);
         rw = new RealisticWater(batch, getCamera(), getViewport().getWorldWidth(), getViewport().getWorldHeight());
-
+        vodor1 = new OneSpriteStaticActor(Assets.manager.get(Assets.VODOR_HATTER));
+        vodor1.setPosition((float)0,4);
+        vodor1.setSize(14,7);
+        addActor(vodor1);
 
         mWorld = new World(new Vector2(0, -9.2f), false);
         float width = getViewport().getWorldWidth();
@@ -71,6 +76,7 @@ public class MenuStage extends MyStage {
 
         createBox2DWorld(width, height, game);
         createParticleStuff(width, height);
+
 
 
         //for (int i = 0; i < 100; i++) createParticles1(width * (30f / 100f) * WORLD_TO_BOX + i * 3, height * (80f / 100f) * WORLD_TO_BOX);

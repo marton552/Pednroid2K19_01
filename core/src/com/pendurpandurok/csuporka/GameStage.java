@@ -2,6 +2,7 @@ package com.pendurpandurok.csuporka;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -19,6 +20,7 @@ import finnstr.libgdx.liquidfun.ParticleSystem;
 import finnstr.libgdx.liquidfun.ParticleSystemDef;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
+import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
 public class GameStage extends MyStage {
 
@@ -30,6 +32,10 @@ public class GameStage extends MyStage {
     private ParticleGroupDef mParticleGroupDef1;
 
     RealisticWater rw;
+
+    OneSpriteStaticActor t;
+    OneSpriteStaticActor t_szeg;
+    OneSpriteStaticActor tartaly;
 
 
     public GameStage(Batch batch, MyGame game) {
@@ -46,6 +52,36 @@ public class GameStage extends MyStage {
 
         mDebugRenderer = new Box2DDebugRenderer();
         mParticleDebugRenderer = new ColorParticleRenderer(mParticleSystem.getParticleCount() + 10000);
+
+        //a nagy tartály
+        t = new OneSpriteStaticActor(Assets.manager.get(Assets.T_HATTER));
+        t.setSize(30,30);
+        t.setPosition(1,15);
+        t.setZIndex(-1);
+        //addActor(t);
+        t_szeg = new OneSpriteStaticActor(Assets.manager.get(Assets.T_SZEG));
+        t_szeg.setSize(30,30);
+        t_szeg.setPosition(1,15);
+        //addActor(t_szeg);
+        createRectangle(1, 30, (float)0.1, 30, 0* MathUtils.degreesToRadians);
+        createRectangle(31, 30, (float)0.1, 30, 0* MathUtils.degreesToRadians);
+        createRectangle(16, 15, 30,(float)0.1, 0* MathUtils.degreesToRadians);
+
+        //ahonnan folyik a víz
+        tartaly = new OneSpriteStaticActor(Assets.manager.get(Assets.TART_HATTER));
+        tartaly.setSize(30,10);
+        tartaly.setPosition(1,51);
+        //addActor(tartaly);
+        //bal oldala
+        createRectangle((float)8.5, (float)57.5, (float)0.1, 13, 60* MathUtils.degreesToRadians);
+        createRectangle(3, 75, (float)0.1, 30, 0* MathUtils.degreesToRadians);
+        createRectangle((float)14.2, (float)52.8, (float)0.1, 3, 0* MathUtils.degreesToRadians);
+        //jobb oldala
+        createRectangle((float)23.5, (float)57.5, (float)0.1, 13, 300* MathUtils.degreesToRadians);
+        createRectangle(29, 75, (float)0.1, 30, 0* MathUtils.degreesToRadians);
+        createRectangle((float)17.8, (float)52.8, (float)0.1, 3, 0* MathUtils.degreesToRadians);
+
+        createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()+10);
     }
 
     public void createRectangle(float posX, float posY, float width, float height, float angle) {
@@ -122,6 +158,14 @@ public class GameStage extends MyStage {
         mDebugRenderer.render(mWorld, getCamera().combined);
 
         super.draw();
+    }
+    int counter = 0;
+    public void act(float delta) {
+        super.act(delta);
+        counter++;
+        if(counter % MathUtils.random(8, 500) == 0)
+            createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()+10);
+
     }
 
     @Override
