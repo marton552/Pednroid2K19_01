@@ -227,14 +227,18 @@ public class MenuStage extends MyStage {
         super.act(delta);
         counter++;
         if(counter % MathUtils.random(80, 1000) == 0)
-            createParticles(11, getViewport().getWorldHeight() + 10);
+            createParticles(6, getViewport().getWorldHeight() + 10);
         if(counter % MathUtils.random(80, 1000) == 0)
-            createParticles(getViewport().getWorldWidth() - 15, getViewport().getWorldHeight() + 10);
+            createParticles(getViewport().getWorldWidth() - 14, getViewport().getWorldHeight() + 10);
 
     }
 
     @Override
     public void draw() {
+
+        super.draw();
+
+
         mWorld.step(Gdx.graphics.getDeltaTime(), 10, 6, mParticleSystem.calculateReasonableParticleIterations(Gdx.graphics.getDeltaTime()));
 
 
@@ -255,7 +259,6 @@ public class MenuStage extends MyStage {
         //render box2d
         mDebugRenderer.render(mWorld, getCamera().combined);
 
-        super.draw();
 
 
     }

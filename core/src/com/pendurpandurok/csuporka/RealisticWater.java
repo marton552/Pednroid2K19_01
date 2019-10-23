@@ -3,6 +3,7 @@ package com.pendurpandurok.csuporka;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,7 +22,7 @@ public class RealisticWater {
     FrameBuffer blurTargetA, blurTargetB;
     TextureRegion fboRegion;
 
-    public static final int FBO_SIZE = 30;//=1024;
+    public static final int FBO_SIZE = 50;//=1024;
 
     public static final float MAX_BLUR = 0.18f;
 
@@ -80,8 +81,8 @@ public class RealisticWater {
                     "   \n" +
                     "   " +
                     "   //vec4 t = texture2D(u_texture, tc);\n" +
-                    "//float c = step( 0.2,t.r);\n" +
-                    "gl_FragColor = vec4(sum.rgb,1.0);\n"+
+                    "   //float c = step( 0.2,t.r);\n" +
+                    "   gl_FragColor = vec4(sum.rgb,1.0);\n"+
                     "   "+
                     "}";
 
@@ -140,7 +141,7 @@ public class RealisticWater {
         //setup uniforms for our shader
         blurShader.begin();
         blurShader.setUniformf("dir", 0f, 0f);
-        blurShader.setUniformf("resolution", viewportH);
+        blurShader.setUniformf("resolution", viewportW);
         blurShader.setUniformf("radius", 1f);
         blurShader.end();
 
@@ -156,7 +157,7 @@ public class RealisticWater {
         blurTargetA = new FrameBuffer(Pixmap.Format.RGBA8888, (int)viewportW, (int)viewportH, false);
         blurTargetB = new FrameBuffer(Pixmap.Format.RGBA8888, (int)viewportW, (int)viewportH, false);
         fboRegion = new TextureRegion(blurTargetA.getColorBufferTexture());
-        fboRegion.flip(false, true);
+        fboRegion.flip(true, true);
     }
 
     void resizeBatch(float width, float height) {
@@ -166,38 +167,42 @@ public class RealisticWater {
     }
 
     public void startRender() {
-        if(true) return;
-
+        //Start rendering to an offscreen color buffer
         blurTargetA.begin();
 
         //Clear the offscreen buffer with an opaque background
-        Gdx.gl.glClearColor(1f, 1f, 0f, 1f);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //before rendering, ensure we are using the default shader
         batch.setShader(null);
 
+        //resize the batch projection matrix before drawing with it
         resizeBatch(viewportW, viewportH);
-        //resizeBatch(5, 5);
 
         //now we can start drawing...
         batch.begin();
     }
 
     public void stopRender() {
-        if(true) return;
+        //finish rendering to the offscreen buffer
         batch.flush();
+
+        //finish rendering to the offscreen buffer
         blurTargetA.end();
 
         //now let's start blurring the offscreen image
         batch.setShader(blurShader);
 
-        blurShader.setUniformf("dir", 1f, 0f);
-        float mouseXAmt = Gdx.input.getX() / (float)Gdx.graphics.getWidth();
-        //blurShader.setUniformf("radius", mouseXAmt * MAX_BLUR);
-        blurShader.setUniformf("radius",  MAX_BLUR);
-        //System.out.println("x: "+(mouseXAmt * MAX_BLUR));
+        //since we never called batch.end(), we should still be drawing
+        //which means are blurShader should now be in use
 
+        //ensure the direction is along the X-axis only
+        blurShader.setUniformf("dir", 1f, 0f);
+
+        //update blur amount based on touch input
+        float mouseXAmt = Gdx.input.getX() / (float)Gdx.graphics.getWidth();
+        blurShader.setUniformf("radius", mouseXAmt * MAX_BLUR);
 
         //our first blur pass goes to target B
         blurTargetB.begin();
@@ -206,28 +211,36 @@ public class RealisticWater {
         fboRegion.setTexture(blurTargetA.getColorBufferTexture());
 
         //draw the scene to target B with a horizontal blur effect
-        batch.draw(fboRegion, 0, 0);
+        batch.draw(fboRegion, -3, 0);
+
+        //flush the batch before ending the FBO
         batch.flush();
 
         //finish rendering target B
         blurTargetB.end();
 
-        resizeBatch(viewportW, viewportH);
-        //System.out.println("w: "+viewportW+" h: "+viewportH);
-        //resizeBatch(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //now we can render to the screen using the vertical blur shader
 
+        //update our projection matrix with the screen size
+        resizeBatch(viewportW, viewportH);
+
+        //update the blur only along Y-axis
         blurShader.setUniformf("dir", 0f, 1f);
 
-        //float mouseYAmt = Gdx.input.getY() / (float)Gdx.graphics.getHeight();
-        //blurShader.setUniformf("radius", mouseYAmt * MAX_BLUR);
-        blurShader.setUniformf("radius", MAX_BLUR);
+        //update the Y-axis blur radius
+        float mouseYAmt = Gdx.input.getY() / (float)Gdx.graphics.getHeight();
+        blurShader.setUniformf("radius", mouseYAmt * MAX_BLUR);
 
+        //draw target B to the screen with a vertical blur effect
         fboRegion.setTexture(blurTargetB.getColorBufferTexture());
 
-        //batch.setShader(alphaTresholdShader);
-        batch.draw(fboRegion, 0, 0);
+        batch.setShader(alphaTresholdShader);
+        batch.draw(fboRegion, -3, 0);
+
+        //reset to default shader without blurs
         batch.setShader(null);
 
+        //finally, end the batch since we have reached the end of the frame
         batch.end();
     }
 
