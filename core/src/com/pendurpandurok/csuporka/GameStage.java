@@ -42,6 +42,10 @@ public class GameStage extends MyStage {
     Body b;
     Body c;
     Body d;
+    OneSpriteStaticActor csap1;
+    OneSpriteStaticActor csap2;
+    OneSpriteStaticActor csap3;
+    OneSpriteStaticActor csap4;
 
     public ArrayList<Body> bodyk = new ArrayList<Body>();
 
@@ -81,16 +85,39 @@ public class GameStage extends MyStage {
         createRectangle((float)29.44, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
 
         //ahol nyílik a cső
-        a = createRectangle((float)6.13, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        //a = createRectangle((float)6.13, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         b = createRectangle((float)12.79, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         c = createRectangle((float)19.45, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         d = createRectangle((float)26.11, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
-        bodyk.add(a);
+        //bodyk.add(a);
         bodyk.add(b);
         bodyk.add(c);
         bodyk.add(d);
 
         //akkor itt már tényleg hozzá adjuk a csapokat
+        csap1 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
+        csap1.setSize(8.5f,8.5f);
+        csap1.setPosition((float)2,(float)7);
+        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+
+        csap2 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
+        csap2.setSize(8.5f,8.5f);
+        csap2.setPosition((float)8.66,(float)7);
+        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+
+        csap3 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
+        csap3.setSize(8.5f,8.5f);
+        csap3.setPosition((float)15.32,(float)7);
+        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+
+        csap4 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
+        csap4.setSize(8.5f,8.5f);
+        csap4.setPosition((float)21.98,(float)7);
+        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
 
         //ahonnan folyik a víz
         tartaly = new OneSpriteStaticActor(Assets.manager.get(Assets.TART_HATTER));
@@ -183,13 +210,18 @@ public class GameStage extends MyStage {
         //render box2d
         mDebugRenderer.render(mWorld, getCamera().combined);
 
-
+        getBatch().begin();
+        csap1.draw(getBatch(),1);
+        csap2.draw(getBatch(),1);
+        csap3.draw(getBatch(),1);
+        csap4.draw(getBatch(),1);
+        getBatch().end();
     }
     int counter = 0;
     public void act(float delta) {
         super.act(delta);
         counter++;
-        if(counter % MathUtils.random(8, 500) == 0)
+        if(counter % MathUtils.random(8, 200) == 0)
             createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()+10);
 
     }
