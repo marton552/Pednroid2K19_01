@@ -242,7 +242,7 @@ public class MenuStage extends MyStage {
         //mParticleDebugRenderer.render(mParticleSystem, BOX_TO_WORLD, getCamera().combined);
 
         //render box2d
-        //mDebugRenderer.render(mWorld, getCamera().combined);
+        mDebugRenderer.render(mWorld, getCamera().combined);
 
 
 
