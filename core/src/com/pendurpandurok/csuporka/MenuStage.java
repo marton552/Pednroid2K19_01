@@ -194,28 +194,6 @@ public class MenuStage extends MyStage {
         //parShape.setRadius(1f);
         mParticleGroupDef1.shape = parShape;
         //mParticleSystem.createParticleGroup(mParticleGroupDef1);
-
-        //Exactly the same! This is the second group with a different
-        //color and shifted on the x-Axis
-        /*mParticleGroupDef2 = new ParticleGroupDef();
-        mParticleGroupDef2.shape = mParticleGroupDef1.shape;
-        mParticleGroupDef2.flags = mParticleGroupDef1.flags;
-        mParticleGroupDef2.groupFlags = mParticleGroupDef1.groupFlags;
-        mParticleGroupDef2.position.set(width * (70f / 100f) * WORLD_TO_BOX, height * (80f / 100f) * WORLD_TO_BOX);
-        mParticleGroupDef2.color.set(1f, 0f, 0f, 1);
-        mParticleSystem.createParticleGroup(mParticleGroupDef2);
-
-        //Here we create a new shape and we set a
-        //linear velocity. This is used in createParticles1()
-        //and createParticles2()
-        CircleShape partShape = new CircleShape();
-        partShape.setRadius(0.1f);
-
-        mParticleGroupDef1.shape = partShape;
-        mParticleGroupDef2.shape = partShape;
-
-        mParticleGroupDef1.linearVelocity.set(new Vector2(0, -10f));
-        mParticleGroupDef2.linearVelocity.set(new Vector2(0, -10f));*/
     }
 
     public void createParticles(float pX, float pY, float r, float g, float b, float a) {
@@ -236,15 +214,7 @@ public class MenuStage extends MyStage {
     public void act(float delta) {
         super.act(delta);
         counter++;
-        if(counter % MathUtils.random(80, 1000) == 0) {
-            //mParticleGroupDef1.color.set(1, 0, 0, 1);
-            //createParticles(6, getViewport().getWorldHeight() + 10);
-        }
-        if(counter % MathUtils.random(80, 1000) == 0)
-        {
-            //mParticleGroupDef1.color.set(0, 0, 1, 1);
-            //createParticles(getViewport().getWorldWidth() - 14, getViewport().getWorldHeight() + 10);
-        }
+
 
     }
 

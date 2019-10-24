@@ -174,7 +174,7 @@ public class RealisticWater {
         blurTargetA.begin();
 
         //Clear the offscreen buffer with an opaque background
-        Gdx.gl.glClearColor(1f, 1f, 0f, 1f);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //before rendering, ensure we are using the default shader
