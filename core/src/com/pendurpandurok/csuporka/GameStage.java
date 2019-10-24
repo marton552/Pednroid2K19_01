@@ -165,7 +165,18 @@ public class GameStage extends MyStage {
         kacsa.setSize(kacsa.getWidth() / 300, kacsa.getHeight() / 300);
         kacsa.setVisible(false);
 
-        var1 = new MyLabel("asd", game.getLabelStyle());
+        var1 = new MyLabel("1", game.getLabelStyle());
+        var1.setPosition(4.6f,-10);
+        var1.setFontScale(0.06f);
+        var2 = new MyLabel("2", game.getLabelStyle());
+        var2.setPosition(11.66f,-10);
+        var2.setFontScale(0.06f);
+        var3 = new MyLabel("3", game.getLabelStyle());
+        var3.setPosition(18.2f,-10);
+        var3.setFontScale(0.06f);
+        var4 = new MyLabel("4", game.getLabelStyle());
+        var4.setPosition(24.8f,-10);
+        var4.setFontScale(0.06f);
 
 
         addListener(new ClickListener() {
@@ -298,6 +309,10 @@ for (int i = 0; i < 40; i++)
         csap2.draw(getBatch(),1);
         csap3.draw(getBatch(),1);
         csap4.draw(getBatch(),1);
+        var1.draw(getBatch(),1);
+        var2.draw(getBatch(),1);
+        var3.draw(getBatch(),1);
+        var4.draw(getBatch(),1);
 
 
         if(kacsaSpawned) {
