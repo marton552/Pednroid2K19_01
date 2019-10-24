@@ -13,6 +13,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 import finnstr.libgdx.liquidfun.ColorParticleRenderer;
 import finnstr.libgdx.liquidfun.ParticleDef;
 import finnstr.libgdx.liquidfun.ParticleGroupDef;
@@ -36,6 +38,12 @@ public class GameStage extends MyStage {
     OneSpriteStaticActor t;
     OneSpriteStaticActor t_szeg;
     OneSpriteStaticActor tartaly;
+    Body a;
+    Body b;
+    Body c;
+    Body d;
+
+    public ArrayList<Body> bodyk = new ArrayList<Body>();
 
 
     public GameStage(Batch batch, MyGame game) {
@@ -58,20 +66,32 @@ public class GameStage extends MyStage {
         t.setSize(30,30);
         t.setPosition(1,15);
         t.setZIndex(-1);
-        //addActor(t);
+        addActor(t);
         t_szeg = new OneSpriteStaticActor(Assets.manager.get(Assets.T_SZEG));
         t_szeg.setSize(30,30);
         t_szeg.setPosition(1,15);
-        //addActor(t_szeg);
+        addActor(t_szeg);
         createRectangle(1, 30, (float)0.1, 30, 0* MathUtils.degreesToRadians);
         createRectangle(31, 30, (float)0.1, 30, 0* MathUtils.degreesToRadians);
-        createRectangle(16, 15, 30,(float)0.1, 0* MathUtils.degreesToRadians);
+        //csőőőő
+        createRectangle((float)2.8, 15, (float)3.33,(float)0.1, 0* MathUtils.degreesToRadians);
+        createRectangle((float)9.46, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        createRectangle((float)16.12, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        createRectangle((float)22.78, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        createRectangle((float)29.44, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+
+        //ahol nyílik a cső
+        a = createRectangle((float)6.13, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        b = createRectangle((float)12.79, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        c = createRectangle((float)19.45, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        d = createRectangle((float)26.11, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        //bodyk.add(b);
 
         //ahonnan folyik a víz
         tartaly = new OneSpriteStaticActor(Assets.manager.get(Assets.TART_HATTER));
         tartaly.setSize(30,10);
         tartaly.setPosition(1,51);
-        //addActor(tartaly);
+        addActor(tartaly);
         //bal oldala
         createRectangle((float)8.5, (float)57.5, (float)0.1, 13, 60* MathUtils.degreesToRadians);
         createRectangle(3, 75, (float)0.1, 30, 0* MathUtils.degreesToRadians);
@@ -80,18 +100,16 @@ public class GameStage extends MyStage {
         createRectangle((float)23.5, (float)57.5, (float)0.1, 13, 300* MathUtils.degreesToRadians);
         createRectangle(29, 75, (float)0.1, 30, 0* MathUtils.degreesToRadians);
         createRectangle((float)17.8, (float)52.8, (float)0.1, 3, 0* MathUtils.degreesToRadians);
-
         createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()+10);
     }
 
-    public void createRectangle(float posX, float posY, float width, float height, float angle) {
+    public Body createRectangle(float posX, float posY, float width, float height, float angle) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(posX, posY);
         bodyDef.angle = angle;
 
         Body body = mWorld.createBody(bodyDef);
-
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2.0f, height / 2.0f);
         //System.out.println(height / 2.0f, width / 2.0f);
@@ -100,8 +118,11 @@ public class GameStage extends MyStage {
         fixDef.friction = 0.8f;
         fixDef.shape = shape;
         body.createFixture(fixDef);
+        //mWorld.destroyBody(body);
 
         shape.dispose();
+
+        return body;
     }
 
     private void createParticleStuff(float width, float height) {
@@ -146,7 +167,7 @@ public class GameStage extends MyStage {
     public void draw() {
         mWorld.step(Gdx.graphics.getDeltaTime(), 10, 6, mParticleSystem.calculateReasonableParticleIterations(Gdx.graphics.getDeltaTime()));
 
-
+        super.draw();
         //draw our scene here
         //actor.draw(getBatch(), 1f);
 
@@ -157,7 +178,7 @@ public class GameStage extends MyStage {
         //render box2d
         mDebugRenderer.render(mWorld, getCamera().combined);
 
-        super.draw();
+
     }
     int counter = 0;
     public void act(float delta) {
