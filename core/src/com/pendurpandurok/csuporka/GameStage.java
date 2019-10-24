@@ -65,7 +65,7 @@ public class GameStage extends MyStage {
         t = new OneSpriteStaticActor(Assets.manager.get(Assets.T_HATTER));
         t.setSize(30,30);
         t.setPosition(1,15);
-        t.setZIndex(-1);
+        t.setZIndex(1);
         addActor(t);
         t_szeg = new OneSpriteStaticActor(Assets.manager.get(Assets.T_SZEG));
         t_szeg.setSize(30,30);
@@ -85,7 +85,12 @@ public class GameStage extends MyStage {
         b = createRectangle((float)12.79, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         c = createRectangle((float)19.45, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         d = createRectangle((float)26.11, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
-        //bodyk.add(b);
+        bodyk.add(a);
+        bodyk.add(b);
+        bodyk.add(c);
+        bodyk.add(d);
+
+        //akkor itt már tényleg hozzá adjuk a csapokat
 
         //ahonnan folyik a víz
         tartaly = new OneSpriteStaticActor(Assets.manager.get(Assets.TART_HATTER));
@@ -138,7 +143,7 @@ public class GameStage extends MyStage {
         //Create a new particlegroupdefinition and set some properties
         //For the flags you can set more than only one
         mParticleGroupDef1 = new ParticleGroupDef();
-        mParticleGroupDef1.color.set(1f, 0, 0, 1);
+        mParticleGroupDef1.color.set(0, 0, 1f, 1);
         mParticleGroupDef1.flags.add(ParticleDef.ParticleType.b2_waterParticle);
         mParticleGroupDef1.position.set(width * (30f / 100f) * 1, height * (80f / 100f) * 1);
 
