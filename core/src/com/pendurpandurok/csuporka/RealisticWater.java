@@ -113,8 +113,11 @@ public class RealisticWater {
             "varying vec2 vTexCoord;\n" +
             "void main(){\n" +
             "   vec4 t = texture2D(u_texture0, vTexCoord);\n" +
-            "   float c = step(0.55,t.r);\n" +
-            "   gl_FragColor = vec4(t.r, 0, 0, c);\n"+
+            "   float c = 0.0;\n"+
+            "   if(t.b > 0.55) c = step(0.55,t.b);\n" +
+            "   if(t.r > 0.55) c = step(0.55,t.r); \n" +
+            "   if(t.g > 0.55) c = step(0.55,t.g); \n" +
+            "   gl_FragColor = vec4(t.r, t.g, t.b, c);\n"+
             "}";
 
     public RealisticWater(Batch batch, Camera camera, float viewportW, float viewportH) {
@@ -171,7 +174,7 @@ public class RealisticWater {
         blurTargetA.begin();
 
         //Clear the offscreen buffer with an opaque background
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClearColor(1f, 1f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //before rendering, ensure we are using the default shader
@@ -211,7 +214,7 @@ public class RealisticWater {
         fboRegion.setTexture(blurTargetA.getColorBufferTexture());
 
         //draw the scene to target B with a horizontal blur effect
-        batch.draw(fboRegion, -3, 0);
+        batch.draw(fboRegion, 0f, 0);
 
         //flush the batch before ending the FBO
         batch.flush();
@@ -235,7 +238,7 @@ public class RealisticWater {
         fboRegion.setTexture(blurTargetB.getColorBufferTexture());
 
         batch.setShader(alphaTresholdShader);
-        batch.draw(fboRegion, -3, 0);
+        batch.draw(fboRegion, 0f, 0);
 
         //reset to default shader without blurs
         batch.setShader(null);

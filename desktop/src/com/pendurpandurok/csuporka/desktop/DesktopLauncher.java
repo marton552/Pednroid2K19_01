@@ -7,8 +7,8 @@ import com.pendurpandurok.csuporka.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height = 1280;
-		config.width = 720;
+		config.height = 960;
+		config.width = 540;
 
 		new LwjglApplication(new MyGdxGame(), config);
 	}

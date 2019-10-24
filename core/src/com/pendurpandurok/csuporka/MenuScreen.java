@@ -23,7 +23,7 @@ public class MenuScreen extends MyScreen {
     public MenuScreen(MyGdxGame game) {
         super(game);
         stage = new MenuStage(spriteBatch, game);
-        ui = new MenuUI(spriteBatch, game);
+        ui = new MenuUI(spriteBatch, game, stage);
 
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(stage);

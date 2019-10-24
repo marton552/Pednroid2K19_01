@@ -85,7 +85,7 @@
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-backend-android:1.9.10@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\marto\Downloads\Pednroid2K19_01\core\libs\gdx-liquidfun.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C.\Users\tanulo\Documents\Pednroid2K19_01\core\libs\gdx-liquidfun.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-freetype:1.9.10@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx:1.9.10@jar" level="project" />
     <orderEntry type="module" module-name="core" />

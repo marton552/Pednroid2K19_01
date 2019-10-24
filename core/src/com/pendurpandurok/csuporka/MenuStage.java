@@ -162,6 +162,9 @@ public class MenuStage extends MyStage {
         */
     }
 
+
+
+
     private void createParticleStuff(float width, float height) {
         //First we create a new particlesystem and
         //set the radius of each particle to 6 / 120 m (5 cm)
@@ -175,7 +178,7 @@ public class MenuStage extends MyStage {
         //Create a new particlegroupdefinition and set some properties
         //For the flags you can set more than only one
         mParticleGroupDef1 = new ParticleGroupDef();
-        mParticleGroupDef1.color.set(1f, 0, 0, 1);
+        mParticleGroupDef1.color.set(0f, 0, 1, 1);
         mParticleGroupDef1.flags.add(ParticleDef.ParticleType.b2_waterParticle);
         mParticleGroupDef1.position.set(width * (30f / 100f) * WORLD_TO_BOX, height * (80f / 100f) * WORLD_TO_BOX);
 
@@ -215,8 +218,9 @@ public class MenuStage extends MyStage {
         mParticleGroupDef2.linearVelocity.set(new Vector2(0, -10f));*/
     }
 
-    public void createParticles(float pX, float pY) {
+    public void createParticles(float pX, float pY, float r, float g, float b, float a) {
         mParticleGroupDef1.position.set(pX, pY);
+        mParticleGroupDef1.color.set(r, g, b, a);
         mParticleSystem.createParticleGroup(mParticleGroupDef1);
         updateParticleCount();
     }
@@ -232,10 +236,15 @@ public class MenuStage extends MyStage {
     public void act(float delta) {
         super.act(delta);
         counter++;
+        if(counter % MathUtils.random(80, 1000) == 0) {
+            //mParticleGroupDef1.color.set(1, 0, 0, 1);
+            //createParticles(6, getViewport().getWorldHeight() + 10);
+        }
         if(counter % MathUtils.random(80, 1000) == 0)
-            createParticles(6, getViewport().getWorldHeight() + 10);
-        if(counter % MathUtils.random(80, 1000) == 0)
-            createParticles(getViewport().getWorldWidth() - 14, getViewport().getWorldHeight() + 10);
+        {
+            //mParticleGroupDef1.color.set(0, 0, 1, 1);
+            //createParticles(getViewport().getWorldWidth() - 14, getViewport().getWorldHeight() + 10);
+        }
 
     }
 
@@ -263,7 +272,7 @@ public class MenuStage extends MyStage {
         //mParticleDebugRenderer.render(mParticleSystem, BOX_TO_WORLD, getCamera().combined);
 
         //render box2d
-        mDebugRenderer.render(mWorld, getCamera().combined);
+        //mDebugRenderer.render(mWorld, getCamera().combined);
 
 
 

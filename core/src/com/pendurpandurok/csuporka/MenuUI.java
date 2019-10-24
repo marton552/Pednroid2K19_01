@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -12,7 +13,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyButton;
 
 public class MenuUI extends MyStage {
-    public MenuUI(final Batch batch, final MyGdxGame game) {
+    public MenuUI(final Batch batch, final MyGdxGame game, final MenuStage ms) {
         super(new ExtendViewport(1280, 720), batch, game);
 
         MyButton exit = new MyButton("Exit", game.getButtonStyle());
@@ -22,9 +23,17 @@ public class MenuUI extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Gdx.app.exit();
-            }
-        });
+                ms.createParticles(6, ms.getViewport().getWorldHeight() + 10, 1, 0, 0, 1);
+
+                Timer.schedule(new Timer.Task(){
+                                   @Override
+                                   public void run() {
+                                       Gdx.app.exit();
+                                   }
+                               }
+                        ,4, 0, 1);
+                    }
+                });
         addActor(exit);
 
         MyButton play = new MyButton("Play", game.getButtonStyle());
@@ -34,7 +43,15 @@ public class MenuUI extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.setScreen(new GameScreen(game));
+                ms.createParticles(ms.getViewport().getWorldWidth() - 14, ms.getViewport().getWorldHeight() + 10, 0, 0, 1, 1);;
+
+                Timer.schedule(new Timer.Task(){
+                                   @Override
+                                   public void run() {
+                                       game.setScreen(new GameScreen(game));
+                                   }
+                               }
+                ,4, 0, 1);
             }
         });
         addActor(play);
