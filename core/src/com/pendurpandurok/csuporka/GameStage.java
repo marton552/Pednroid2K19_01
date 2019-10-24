@@ -76,7 +76,7 @@ public class GameStage extends MyStage {
     public ArrayList<Body> bodyk = new ArrayList<Body>();
 
 
-    public GameStage(Batch batch, MyGame game) {
+    public GameStage(Batch batch, MyGdxGame game) {
         super(new ExtendViewport(1080 / 32, 1920 / 32), batch, game);
 
         rw = new RealisticWater(batch, getCamera(), getViewport().getWorldWidth(), getViewport().getWorldHeight());
@@ -165,7 +165,7 @@ public class GameStage extends MyStage {
         kacsa.setSize(kacsa.getWidth() / 300, kacsa.getHeight() / 300);
         kacsa.setVisible(false);
 
-        //var1 = new MyLabel("asd", game.getLabelStyle());
+        var1 = new MyLabel("asd", game.getLabelStyle());
 
 
         addListener(new ClickListener() {

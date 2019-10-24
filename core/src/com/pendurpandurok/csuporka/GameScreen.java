@@ -9,7 +9,7 @@ public class GameScreen extends MyScreen {
 
     GameStage gameStage;
 
-    public GameScreen(MyGame game) {
+    public GameScreen(MyGdxGame game) {
         super(game);
 
         gameStage = new GameStage(spriteBatch, game);
