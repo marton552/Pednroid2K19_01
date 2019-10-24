@@ -7,9 +7,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -46,6 +49,10 @@ public class GameStage extends MyStage {
     OneSpriteStaticActor csap2;
     OneSpriteStaticActor csap3;
     OneSpriteStaticActor csap4;
+
+    OneSpriteStaticActor kacsa;
+    Body kacsaphsy;
+    boolean kacsaSpawned = false;
 
     public ArrayList<Body> bodyk = new ArrayList<Body>();
 
@@ -133,6 +140,36 @@ public class GameStage extends MyStage {
         createRectangle(29, 75, (float)0.1, 30, 0* MathUtils.degreesToRadians);
         createRectangle((float)17.8, (float)52.8, (float)0.1, 3, 0* MathUtils.degreesToRadians);
         createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()+10);
+
+
+        kacsa = new OneSpriteStaticActor(Assets.manager.get(Assets.KACSA));
+        kacsa.setSize(kacsa.getWidth() / 300, kacsa.getHeight() / 300);
+        kacsa.setVisible(false);
+
+
+        addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                spawnKacsa(x, y);
+            }
+        });
+    }
+
+    public void spawnKacsa(float x, float y) {
+        if (kacsaSpawned == true) return;
+
+        kacsaSpawned = true;
+        kacsaphsy = createCircleBody(x, y, 2f);
+        kacsa.setVisible(true);
+    }
+
+    public void destroyKacsa() {
+        if(kacsaSpawned == false) return;
+
+        kacsaSpawned = false;
+        kacsa.setVisible(false);
+        mWorld.destroyBody(kacsaphsy);
     }
 
     public Body createRectangle(float posX, float posY, float width, float height, float angle) {
@@ -154,6 +191,25 @@ public class GameStage extends MyStage {
 
         shape.dispose();
 
+        return body;
+    }
+
+    public Body createCircleBody(float pX, float pY, float pRadius) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(pX, pY);
+        Body body = mWorld.createBody(bodyDef);
+
+        CircleShape shape = new CircleShape();
+        shape.setRadius(pRadius);
+
+        FixtureDef fixDef = new FixtureDef();
+        fixDef.density = 0.5f;
+        fixDef.friction = 0.2f;
+        fixDef.shape = shape;
+        fixDef.restitution = 0.3f;
+
+        body.createFixture(fixDef);
         return body;
     }
 
@@ -215,6 +271,12 @@ public class GameStage extends MyStage {
         csap2.draw(getBatch(),1);
         csap3.draw(getBatch(),1);
         csap4.draw(getBatch(),1);
+
+
+        if(kacsaSpawned) {
+            kacsa.setPosition(kacsaphsy.getPosition().x - kacsa.getWidth() / 2, kacsaphsy.getPosition().y - kacsa.getHeight() / 2);
+            kacsa.draw(getBatch(), 1);
+        }
         getBatch().end();
     }
     int counter = 0;

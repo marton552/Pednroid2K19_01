@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -108,6 +110,24 @@ public class MenuStage extends MyStage {
         shape.dispose();
     }
 
+    public void createCircleBody(float pX, float pY, float pRadius) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(pX * WORLD_TO_BOX, pY * WORLD_TO_BOX);
+        Body body = mWorld.createBody(bodyDef);
+
+        CircleShape shape = new CircleShape();
+        shape.setRadius(pRadius * WORLD_TO_BOX);
+
+        FixtureDef fixDef = new FixtureDef();
+        fixDef.density = 0.5f;
+        fixDef.friction = 0.2f;
+        fixDef.shape = shape;
+        fixDef.restitution = 0.3f;
+
+        body.createFixture(fixDef);
+    }
+
 
     private void createBox2DWorld(float width, float height, MyGdxGame g) {
         mWorld = new World(new Vector2(0, -9.8f), false);
@@ -164,7 +184,6 @@ public class MenuStage extends MyStage {
 
 
 
-
     private void createParticleStuff(float width, float height) {
         //First we create a new particlesystem and
         //set the radius of each particle to 6 / 120 m (5 cm)
@@ -214,7 +233,6 @@ public class MenuStage extends MyStage {
     public void act(float delta) {
         super.act(delta);
         counter++;
-
 
     }
 
