@@ -26,6 +26,7 @@ import finnstr.libgdx.liquidfun.ParticleSystemDef;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 public class GameStage extends MyStage {
 
@@ -45,10 +46,28 @@ public class GameStage extends MyStage {
     Body b;
     Body c;
     Body d;
+    Body fedel;
     OneSpriteStaticActor csap1;
     OneSpriteStaticActor csap2;
     OneSpriteStaticActor csap3;
     OneSpriteStaticActor csap4;
+
+    MyLabel var1;
+    MyLabel var2;
+    MyLabel var3;
+    MyLabel var4;
+
+    public double befolyo = 10;
+    public double kozep = 9;
+    public double csapv1 = 1;
+    public double csapv2 = 2;
+    public double csapv3 = 3;
+    public double csapv4 = 4;
+    public boolean csapbool1 = false;
+    public boolean csapbool2 = false;
+    public boolean csapbool3 = false;
+    public boolean csapbool4 = false;
+    public boolean seton = false;
 
     OneSpriteStaticActor kacsa;
     Body kacsaphsy;
@@ -92,11 +111,11 @@ public class GameStage extends MyStage {
         createRectangle((float)29.44, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
 
         //ahol nyílik a cső
-        //a = createRectangle((float)6.13, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+        a = createRectangle((float)6.13, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         b = createRectangle((float)12.79, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         c = createRectangle((float)19.45, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         d = createRectangle((float)26.11, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
-        //bodyk.add(a);
+        bodyk.add(a);
         bodyk.add(b);
         bodyk.add(c);
         bodyk.add(d);
@@ -146,6 +165,8 @@ public class GameStage extends MyStage {
         kacsa.setSize(kacsa.getWidth() / 300, kacsa.getHeight() / 300);
         kacsa.setVisible(false);
 
+        //var1 = new MyLabel("asd", game.getLabelStyle());
+
 
         addListener(new ClickListener() {
             @Override
@@ -154,6 +175,12 @@ public class GameStage extends MyStage {
                 spawnKacsa(x, y);
             }
         });
+for (int i = 0; i < 40; i++)
+        createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()/2);
+
+
+        fedel = createRectangle(16, 45, 30,(float)0.1, 0* MathUtils.degreesToRadians);
+        bodyk.add(fedel);
     }
 
     public void spawnKacsa(float x, float y) {
@@ -187,7 +214,7 @@ public class GameStage extends MyStage {
         fixDef.friction = 0.8f;
         fixDef.shape = shape;
         body.createFixture(fixDef);
-        //mWorld.destroyBody(body);
+
 
         shape.dispose();
 
@@ -282,10 +309,14 @@ public class GameStage extends MyStage {
     int counter = 0;
     public void act(float delta) {
         super.act(delta);
-        counter++;
-        if(counter % MathUtils.random(8, 200) == 0)
-            createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()+10);
-
+        if(seton){counter++;
+        if(counter == 100)mWorld.destroyBody(fedel);
+        else if(seton)counter++;
+            if (counter % MathUtils.random(8, 100) == 0)
+                createParticles(getViewport().getWorldWidth() / 2, getViewport().getWorldHeight() + 10);
+        if(counter > 800){
+            System.out.println("asd");
+        }}
     }
 
     @Override

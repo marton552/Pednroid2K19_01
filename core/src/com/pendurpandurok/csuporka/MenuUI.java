@@ -43,7 +43,7 @@ public class MenuUI extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                ms.createParticles(ms.getViewport().getWorldWidth() - 14, ms.getViewport().getWorldHeight() + 10, 0, 0, 1, 1);;
+                ms.createParticles(ms.getViewport().getWorldWidth() - 8, ms.getViewport().getWorldHeight() + 10, 0, 0, 1, 1);;
 
                 Timer.schedule(new Timer.Task(){
                                    @Override
