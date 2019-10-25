@@ -8,7 +8,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyScreen;
 public class AboutScreen extends MyScreen {
     AboutStage aboutStage;
 
-    public AboutScreen(MyGame game) {
+    public AboutScreen(MyGdxGame game) {
         super(game);
 
         aboutStage = new AboutStage(spriteBatch, game);
