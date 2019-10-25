@@ -76,6 +76,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> MENU = new AssetDescriptor<Texture>("menu-icon.png", Texture.class);
     public static final AssetDescriptor<Texture> DARK = new AssetDescriptor<Texture>("ui_textures/dark.png", Texture.class);
     public static final AssetDescriptor<Music> MUSIC = new AssetDescriptor<Music>("music/water.mp3", Music.class);
+    public static final AssetDescriptor<Texture> LOGO = new AssetDescriptor<Texture>("logo.png", Texture.class);
+    public static final AssetDescriptor<Texture> CIM = new AssetDescriptor<Texture>("cim.png", Texture.class);
 
 
 
@@ -117,6 +119,8 @@ public class Assets {
         manager.load(MENU);
         manager.load(DARK);
         manager.load(MUSIC);
+        manager.load(LOGO);
+        manager.load(CIM);
 
 
         manager.load(ALEGREYAREGULAR_FONT);
