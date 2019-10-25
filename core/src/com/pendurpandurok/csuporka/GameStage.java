@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -72,7 +73,7 @@ public class GameStage extends MyStage {
     MyLabel var3;
     MyLabel var4;
     MyLabel varfo;
-    MyLabel info;
+    //MyLabel info;
 
     public double kifolyo;
     public double kozep = 900;
@@ -94,8 +95,12 @@ public class GameStage extends MyStage {
     public ArrayList<Body> bodyk = new ArrayList<Body>();
 
 
-    public GameStage(Batch batch, MyGdxGame game) {
+    private HUD hud;
+
+    public GameStage(Batch batch, MyGdxGame game, HUD hud) {
         super(new ExtendViewport(1080 / 32, 1920 / 32), batch, game);
+        this.hud = hud;
+
         bg = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER));
         bg.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
             bg.setPosition(0,0);
@@ -199,9 +204,13 @@ public class GameStage extends MyStage {
         varfo = new MyLabel(fo+"", game.getLabelStyle());
         varfo.setPosition(15.4f,31);
         varfo.setFontScale(0.1f);
-        info = new MyLabel("Víz állása: Betöltés...", game.getLabelStyle());
+
+        /*Label.LabelStyle s = game.getSmallLabelStyle();
+        s.font = Assets.manager.get(Assets.ALEGREYAREGULAR_FONT_SMALL);
+        info = new MyLabel("Ví z áll ása:Betöltés", s);
         info.setPosition(0,25);
-        info.setFontScale(0.05f);
+        info.setFontScale(0.08f);
+        */
 
         plus1 = new OneSpriteStaticActor(Assets.manager.get(Assets.PLUS));
         plus1.setSize(2,2);
@@ -449,7 +458,6 @@ for (int i = 0; i < 40; i++)
 
     @Override
     public void draw() {
-        mWorld.step(Gdx.graphics.getDeltaTime(), 10, 6, mParticleSystem.calculateReasonableParticleIterations(Gdx.graphics.getDeltaTime()));
 
         super.draw();
         //draw our scene here
@@ -460,19 +468,19 @@ for (int i = 0; i < 40; i++)
         rw.stopRender();
 
         //render box2d
-        mDebugRenderer.render(mWorld, getCamera().combined);
+        //mDebugRenderer.render(mWorld, getCamera().combined);
 
         getBatch().begin();
-        //csap1.draw(getBatch(),1);
-        //csap2.draw(getBatch(),1);
-        //csap3.draw(getBatch(),1);
-        //csap4.draw(getBatch(),1);
+        csap1.draw(getBatch(),1);
+        csap2.draw(getBatch(),1);
+        csap3.draw(getBatch(),1);
+        csap4.draw(getBatch(),1);
         var1.draw(getBatch(),1);
         var2.draw(getBatch(),1);
         var3.draw(getBatch(),1);
         var4.draw(getBatch(),1);
         varfo.draw(getBatch(),1);
-        info.draw(getBatch(),1);
+        //info.draw(getBatch(),1);
 
         if(kacsaSpawned) {
             kacsa.setPosition(kacsaphsy.getPosition().x - kacsa.getWidth() / 2, kacsaphsy.getPosition().y - kacsa.getHeight() / 2);
@@ -484,12 +492,16 @@ for (int i = 0; i < 40; i++)
     double savekozep = 0;
     public void act(float delta) {
         super.act(delta);
+
+        mWorld.step(Gdx.graphics.getDeltaTime(), 10, 6, mParticleSystem.calculateReasonableParticleIterations(Gdx.graphics.getDeltaTime()));
+
+
         if(seton){counter++;
         if(seton)counter++;
             if (counter % MathUtils.random(8, 100) == 0 && fo != 0)
                 createParticles(getViewport().getWorldWidth() / 2, getViewport().getWorldHeight() + 10);
         if(counter > 800){
-            info.setText("Víz állása: "+kozep);
+            hud.updateText("Víz állása: "+kozep);
             System.out.println(("Víz állása: "+kozep));
         }}
         if(seton && counter >800 && counter%50==0){

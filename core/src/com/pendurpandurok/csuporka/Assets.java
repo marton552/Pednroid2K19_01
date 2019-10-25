@@ -25,6 +25,19 @@ public class Assets {
 
 
     static final FreetypeFontLoader.FreeTypeFontLoaderParameter fontParameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+    static final FreetypeFontLoader.FreeTypeFontLoaderParameter fontParameter2 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+
+
+    static {
+        fontParameter2.fontFileName = "alegreyaregular.otf";
+        fontParameter2.fontParameters.size = 5;
+        fontParameter2.fontParameters.borderColor = Color.WHITE;
+        fontParameter2.fontParameters.borderWidth = 1;
+        fontParameter2.fontParameters.characters = CHARS;
+        fontParameter2.fontParameters.color = Color.WHITE;
+    }
+    public static final AssetDescriptor<BitmapFont> ALEGREYAREGULAR_FONT_SMALL
+            = new AssetDescriptor<BitmapFont>(fontParameter2.fontFileName, BitmapFont.class, fontParameter2);
 
     static {
         fontParameter.fontFileName = "alegreyaregular.otf";
@@ -36,6 +49,8 @@ public class Assets {
     }
     public static final AssetDescriptor<BitmapFont> ALEGREYAREGULAR_FONT
             = new AssetDescriptor<BitmapFont>(fontParameter.fontFileName, BitmapFont.class, fontParameter);
+
+
 
 
 
@@ -57,6 +72,9 @@ public class Assets {
     public static final AssetDescriptor<Texture> HATTER = new AssetDescriptor<Texture>("hatter.png", Texture.class);
     public static final AssetDescriptor<Texture> PLUS = new AssetDescriptor<Texture>("plus.png", Texture.class);
     public static final AssetDescriptor<Texture> MINUS = new AssetDescriptor<Texture>("minus.png", Texture.class);
+    public static final AssetDescriptor<Texture> MENU = new AssetDescriptor<Texture>("menu-icon.png", Texture.class);
+    public static final AssetDescriptor<Texture> DARK = new AssetDescriptor<Texture>("ui_textures/dark.png", Texture.class);
+
 
 
     //Stb.
@@ -94,9 +112,12 @@ public class Assets {
         manager.load(HATTER);
         manager.load(PLUS);
         manager.load(MINUS);
+        manager.load(MENU);
+        manager.load(DARK);
 
 
         manager.load(ALEGREYAREGULAR_FONT);
+        manager.load(ALEGREYAREGULAR_FONT_SMALL);
 
     }
 

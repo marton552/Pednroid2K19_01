@@ -153,7 +153,7 @@ abstract public class MyActor extends Actor implements InitableInterface {
 
     public MyActor() {
         super();
-        debug();
+        //debug();
     }
 
     @Override

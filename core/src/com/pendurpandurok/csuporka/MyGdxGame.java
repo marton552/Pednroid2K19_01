@@ -42,4 +42,12 @@ public class MyGdxGame extends MyGame {
 		style.fontColor = Color.WHITE;
 		return style;
 	}
+
+	public Label.LabelStyle getSmallLabelStyle() {
+		Label.LabelStyle style;
+		style = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle();
+		style.font = Assets.manager.get(Assets.ALEGREYAREGULAR_FONT_SMALL);
+		style.fontColor = Color.WHITE;
+		return style;
+	}
 }
