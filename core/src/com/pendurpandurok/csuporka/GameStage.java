@@ -522,10 +522,10 @@ public class GameStage extends MyStage {
             }
             else if(kozep > 930 && (savekozep == 0 || savekozep-kozep < 7)){
                 savekozep = kozep;
-                if(!csapbool1 && csapv1 != 0){mWorld.destroyBody(a); csapbool1 = true;}
-                else if (!csapbool2 && csapv2 != 0){mWorld.destroyBody(b); csapbool2 = true;}
-                else if (!csapbool3 && csapv3 != 0){mWorld.destroyBody(c); csapbool3 = true;}
-                else if (!csapbool4 && csapv4 != 0){mWorld.destroyBody(d); csapbool4 = true;}
+                if(!csapbool1 && csapv1 != 0){mWorld.destroyBody(a); csapbool1 = true; mWorld.destroyBody(zaro); zaro = createRectangle((float)16, 52, (float)2.8125,(float)0.1, 0* MathUtils.degreesToRadians);}
+                else if (!csapbool2 && csapv2 != 0){mWorld.destroyBody(b); csapbool2 = true; mWorld.destroyBody(zaro); zaro = createRectangle((float)16, 52, (float)1.875,(float)0.1, 0* MathUtils.degreesToRadians);}
+                else if (!csapbool3 && csapv3 != 0){mWorld.destroyBody(c); csapbool3 = true; mWorld.destroyBody(zaro); zaro = createRectangle((float)16, 52, (float)0.9375,(float)0.1, 0* MathUtils.degreesToRadians);}
+                else if (!csapbool4 && csapv4 != 0){mWorld.destroyBody(d); csapbool4 = true; mWorld.destroyBody(zaro);}
             }
         }
 
