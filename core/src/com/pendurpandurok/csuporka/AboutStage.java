@@ -22,9 +22,10 @@ public class AboutStage extends MyStage {
         bg.setPosition(0, 0);
         addActor(bg);
 
-        MyLabel info = new MyLabel("A játék neve: Csuporka\n\nEz egy víz szimuláló program,\na csapok mellett található '+' és '-' gombokkal lehet szabályozni a csap átereszthetőségét\n\nA középső nagy tankra kattintva akár egy kacsát vagy egy papírhajót is lerakhatunk.\n\nA játékot készítette a PENdúrPandúrok csapata.\n(Peszleg Márton, Horváth Martin, Gút Dávid, Farkas Valter)\nFelkészítő tanár: Tüske Balázs", game.getLabelStyle());
-        info.setPosition(getViewport().getWorldWidth() / 2 - info.getWidth() / 2, getViewport().getWorldHeight() / 2 - info.getHeight() / 2);
+        MyLabel info = new MyLabel("A játék neve: Csuporka\n\nEz egy víz szimuláló program,\na csapok mellett található '+' és '-' gombokkal\nlehet szabályozni a csap átereszthetőségét\n\nA középső nagy tankra érintve,\nakár egy kacsát vagy egy papírhajót is lerakhatunk.\n\nA játékot készítette a PENdúrPandúrok csapata.\n(Peszleg Márton, Horváth Martin, Gút Dávid, Farkas Valter)\nFelkészítő tanár: Tüske Balázs", game.getLabelStyle());
+        info.setPosition(getViewport().getWorldWidth() / 2 - info.getWidth() / 2, getViewport().getWorldHeight() / 2 - info.getHeight() / 2 + 300);
         info.setAlignment(Align.center);
+        info.setFontScale(1.3f);
         addActor(info);
 
         MyButton back = new MyButton("Vissza", game.getButtonStyle());
