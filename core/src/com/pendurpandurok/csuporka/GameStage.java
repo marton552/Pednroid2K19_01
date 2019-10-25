@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -26,6 +27,7 @@ import finnstr.libgdx.liquidfun.ParticleSystemDef;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.csanyzeg.master.MyBaseClasses.UI.MyButton;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 public class GameStage extends MyStage {
@@ -51,18 +53,32 @@ public class GameStage extends MyStage {
     OneSpriteStaticActor csap2;
     OneSpriteStaticActor csap3;
     OneSpriteStaticActor csap4;
+    OneSpriteStaticActor bg;
+    OneSpriteStaticActor plus1;
+    OneSpriteStaticActor minus1;
+    OneSpriteStaticActor plus2;
+    OneSpriteStaticActor minus2;
+    OneSpriteStaticActor plus3;
+    OneSpriteStaticActor minus3;
+    OneSpriteStaticActor plus4;
+    OneSpriteStaticActor minus4;
+
+    OneSpriteStaticActor nagyplus;
+    OneSpriteStaticActor nagyminus;
 
     MyLabel var1;
     MyLabel var2;
     MyLabel var3;
     MyLabel var4;
+    MyLabel varfo;
 
     public double befolyo = 10;
     public double kozep = 9;
-    public double csapv1 = 1;
-    public double csapv2 = 2;
-    public double csapv3 = 3;
-    public double csapv4 = 4;
+    public int csapv1 = 0;
+    public int csapv2 = 0;
+    public int csapv3 = 0;
+    public int csapv4 = 0;
+    public int fo = 1;
     public boolean csapbool1 = false;
     public boolean csapbool2 = false;
     public boolean csapbool3 = false;
@@ -78,6 +94,10 @@ public class GameStage extends MyStage {
 
     public GameStage(Batch batch, MyGdxGame game) {
         super(new ExtendViewport(1080 / 32, 1920 / 32), batch, game);
+        bg = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER));
+        bg.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+            bg.setPosition(0,0);
+        addActor(bg);
 
         rw = new RealisticWater(batch, getCamera(), getViewport().getWorldWidth(), getViewport().getWorldHeight());
 
@@ -165,25 +185,157 @@ public class GameStage extends MyStage {
         kacsa.setSize(kacsa.getWidth() / 300, kacsa.getHeight() / 300);
         kacsa.setVisible(false);
 
-        var1 = new MyLabel("1", game.getLabelStyle());
+        var1 = new MyLabel(csapv1+"", game.getLabelStyle());
         var1.setPosition(4.6f,-10);
         var1.setFontScale(0.06f);
-        var2 = new MyLabel("2", game.getLabelStyle());
+        var2 = new MyLabel(csapv2+"", game.getLabelStyle());
         var2.setPosition(11.66f,-10);
         var2.setFontScale(0.06f);
-        var3 = new MyLabel("3", game.getLabelStyle());
-        var3.setPosition(18.2f,-10);
+        var3 = new MyLabel(csapv3+"", game.getLabelStyle());
+        var3.setPosition(18.8f,-10);
         var3.setFontScale(0.06f);
-        var4 = new MyLabel("4", game.getLabelStyle());
+        var4 = new MyLabel(csapv4+"", game.getLabelStyle());
         var4.setPosition(24.8f,-10);
         var4.setFontScale(0.06f);
+        varfo = new MyLabel(fo+"", game.getLabelStyle());
+        varfo.setPosition(15.4f,31);
+        varfo.setFontScale(0.1f);
+
+        plus1 = new OneSpriteStaticActor(Assets.manager.get(Assets.PLUS));
+        plus1.setSize(2,2);
+        plus1.setPosition(5f,4.5f);
+        plus1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                csapv1++;
+                var1.setText(""+csapv1);
+            }
+        });
+        addActor(plus1);
+        minus1 = new OneSpriteStaticActor(Assets.manager.get(Assets.MINUS));
+        minus1.setSize(2,2);
+        minus1.setPosition(5f,1.5f);
+        minus1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(csapv1>0)csapv1--;
+                var1.setText(csapv1+"");
+            }
+        });
+        addActor(minus1);
+
+        plus2 = new OneSpriteStaticActor(Assets.manager.get(Assets.PLUS));
+        plus2.setSize(2,2);
+        plus2.setPosition(12f,4.5f);
+        plus2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                csapv2++;
+                var2.setText(""+csapv2);
+            }
+        });
+        addActor(plus2);
+        minus2 = new OneSpriteStaticActor(Assets.manager.get(Assets.MINUS));
+        minus2.setSize(2,2);
+        minus2.setPosition(12f,1.5f);
+        minus2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(csapv2>0)csapv2--;
+                var2.setText(csapv2+"");
+            }
+        });
+        addActor(minus2);
+
+        plus3 = new OneSpriteStaticActor(Assets.manager.get(Assets.PLUS));
+        plus3.setSize(2,2);
+        plus3.setPosition(19f,4.5f);
+        plus3.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                csapv3++;
+                var3.setText(""+csapv3);
+            }
+        });
+        addActor(plus3);
+        minus3 = new OneSpriteStaticActor(Assets.manager.get(Assets.MINUS));
+        minus3.setSize(2,2);
+        minus3.setPosition(19f,1.5f);
+        minus3.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(csapv3>0)csapv3--;
+                var3.setText(csapv3+"");
+            }
+        });
+        addActor(minus3);
+
+        plus4 = new OneSpriteStaticActor(Assets.manager.get(Assets.PLUS));
+        plus4.setSize(2,2);
+        plus4.setPosition(26f,4.5f);
+        plus4.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                csapv4++;
+                var4.setText(""+csapv4);
+            }
+        });
+        addActor(plus4);
+        minus4 = new OneSpriteStaticActor(Assets.manager.get(Assets.MINUS));
+        minus4.setSize(2,2);
+        minus4.setPosition(26f,1.5f);
+        minus4.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(csapv4>0)csapv4--;
+                var4.setText(csapv4+"");
+            }
+        });
+        addActor(minus4);
+
+        nagyplus = new OneSpriteStaticActor(Assets.manager.get(Assets.PLUS));
+        nagyplus.setSize(2,2);
+        nagyplus.setPosition(20,52);
+        nagyplus.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                fo++;
+                varfo.setText(""+fo);
+            }
+        });
+        addActor(nagyplus);
+        nagyminus = new OneSpriteStaticActor(Assets.manager.get(Assets.MINUS));
+        nagyminus.setSize(2,2);
+        nagyminus.setPosition(10,52);
+        nagyminus.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if(fo>0)fo--;
+                varfo.setText(fo+"");
+            }
+        });
+        addActor(nagyminus);
 
 
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                spawnKacsa(x, y);
+                if (seton)spawnKacsa(x, y);
+                else{
+                    seton = true;
+                    mWorld.destroyBody(fedel);
+                }
             }
         });
 for (int i = 0; i < 40; i++)
@@ -313,6 +465,7 @@ for (int i = 0; i < 40; i++)
         var2.draw(getBatch(),1);
         var3.draw(getBatch(),1);
         var4.draw(getBatch(),1);
+        varfo.draw(getBatch(),1);
 
 
         if(kacsaSpawned) {
@@ -325,8 +478,7 @@ for (int i = 0; i < 40; i++)
     public void act(float delta) {
         super.act(delta);
         if(seton){counter++;
-        if(counter == 100)mWorld.destroyBody(fedel);
-        else if(seton)counter++;
+        if(seton)counter++;
             if (counter % MathUtils.random(8, 100) == 0)
                 createParticles(getViewport().getWorldWidth() / 2, getViewport().getWorldHeight() + 10);
         if(counter > 800){

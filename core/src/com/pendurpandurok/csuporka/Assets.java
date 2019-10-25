@@ -54,6 +54,9 @@ public class Assets {
     public static final AssetDescriptor<Texture> TART_SZEG = new AssetDescriptor<Texture>("Tart_szeg.png", Texture.class);
     public static final AssetDescriptor<Texture> VODOR_HATTER = new AssetDescriptor<Texture>("vodor.png", Texture.class);
     public static final AssetDescriptor<Texture> BAR = new AssetDescriptor<Texture>("bar.png", Texture.class);
+    public static final AssetDescriptor<Texture> HATTER = new AssetDescriptor<Texture>("hatter.png", Texture.class);
+    public static final AssetDescriptor<Texture> PLUS = new AssetDescriptor<Texture>("plus.png", Texture.class);
+    public static final AssetDescriptor<Texture> MINUS = new AssetDescriptor<Texture>("minus.png", Texture.class);
 
 
     //Stb.
@@ -88,6 +91,9 @@ public class Assets {
         manager.load(TART_SZEG);
         manager.load(VODOR_HATTER);
         manager.load(BAR);
+        manager.load(HATTER);
+        manager.load(PLUS);
+        manager.load(MINUS);
 
 
         manager.load(ALEGREYAREGULAR_FONT);
