@@ -48,6 +48,7 @@ public class GameStage extends MyStage {
     Body b;
     Body c;
     Body d;
+    Body zaro;
     Body fedel;
     OneSpriteStaticActor csap1;
     OneSpriteStaticActor csap2;
@@ -71,9 +72,10 @@ public class GameStage extends MyStage {
     MyLabel var3;
     MyLabel var4;
     MyLabel varfo;
+    MyLabel info;
 
-    public double befolyo = 10;
-    public double kozep = 9;
+    public double kifolyo;
+    public double kozep = 900;
     public int csapv1 = 0;
     public int csapv2 = 0;
     public int csapv3 = 0;
@@ -135,35 +137,32 @@ public class GameStage extends MyStage {
         b = createRectangle((float)12.79, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         c = createRectangle((float)19.45, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
         d = createRectangle((float)26.11, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
-        bodyk.add(a);
-        bodyk.add(b);
-        bodyk.add(c);
-        bodyk.add(d);
+        zaro = createRectangle((float)16, 52, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
 
         //akkor itt már tényleg hozzá adjuk a csapokat
         csap1 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
         csap1.setSize(8.5f,8.5f);
         csap1.setPosition((float)2,(float)7);
-        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
-        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 20* MathUtils.degreesToRadians);
+        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 340* MathUtils.degreesToRadians);
 
         csap2 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
         csap2.setSize(8.5f,8.5f);
         csap2.setPosition((float)8.66,(float)7);
-        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
-        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)11.26, (float)11.5, (float)0.1, 7, 20* MathUtils.degreesToRadians);
+        createRectangle((float)14.46, (float)11.5, (float)0.1, 7, 340* MathUtils.degreesToRadians);
 
         csap3 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
         csap3.setSize(8.5f,8.5f);
         csap3.setPosition((float)15.32,(float)7);
-        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
-        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)17.92, (float)11.5, (float)0.1, 7, 20* MathUtils.degreesToRadians);
+        createRectangle((float)21.12, (float)11.5, (float)0.1, 7, 340* MathUtils.degreesToRadians);
 
         csap4 = new OneSpriteStaticActor(Assets.manager.get(Assets.CSAP));
         csap4.setSize(8.5f,8.5f);
         csap4.setPosition((float)21.98,(float)7);
-        createRectangle((float)4.6, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
-        createRectangle((float)7.8, (float)11.5, (float)0.1, 7, 0* MathUtils.degreesToRadians);
+        createRectangle((float)24.58, (float)11.5, (float)0.1, 7, 20* MathUtils.degreesToRadians);
+        createRectangle((float)27.78, (float)11.5, (float)0.1, 7, 340* MathUtils.degreesToRadians);
 
         //ahonnan folyik a víz
         tartaly = new OneSpriteStaticActor(Assets.manager.get(Assets.TART_HATTER));
@@ -200,6 +199,9 @@ public class GameStage extends MyStage {
         varfo = new MyLabel(fo+"", game.getLabelStyle());
         varfo.setPosition(15.4f,31);
         varfo.setFontScale(0.1f);
+        info = new MyLabel("Víz állása: Betöltés...", game.getLabelStyle());
+        info.setPosition(0,25);
+        info.setFontScale(0.05f);
 
         plus1 = new OneSpriteStaticActor(Assets.manager.get(Assets.PLUS));
         plus1.setSize(2,2);
@@ -310,6 +312,7 @@ public class GameStage extends MyStage {
                 super.clicked(event, x, y);
                 fo++;
                 varfo.setText(""+fo);
+                if(fo == 1)mWorld.destroyBody(zaro);
             }
         });
         addActor(nagyplus);
@@ -322,6 +325,8 @@ public class GameStage extends MyStage {
                 super.clicked(event, x, y);
                 if(fo>0)fo--;
                 varfo.setText(fo+"");
+                if(fo == 0)zaro = createRectangle((float)16, 52, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians);
+
             }
         });
         addActor(nagyminus);
@@ -335,6 +340,7 @@ public class GameStage extends MyStage {
                 else{
                     seton = true;
                     mWorld.destroyBody(fedel);
+                    mWorld.destroyBody(zaro);
                 }
             }
         });
@@ -457,16 +463,16 @@ for (int i = 0; i < 40; i++)
         mDebugRenderer.render(mWorld, getCamera().combined);
 
         getBatch().begin();
-        csap1.draw(getBatch(),1);
-        csap2.draw(getBatch(),1);
-        csap3.draw(getBatch(),1);
-        csap4.draw(getBatch(),1);
+        //csap1.draw(getBatch(),1);
+        //csap2.draw(getBatch(),1);
+        //csap3.draw(getBatch(),1);
+        //csap4.draw(getBatch(),1);
         var1.draw(getBatch(),1);
         var2.draw(getBatch(),1);
         var3.draw(getBatch(),1);
         var4.draw(getBatch(),1);
         varfo.draw(getBatch(),1);
-
+        info.draw(getBatch(),1);
 
         if(kacsaSpawned) {
             kacsa.setPosition(kacsaphsy.getPosition().x - kacsa.getWidth() / 2, kacsaphsy.getPosition().y - kacsa.getHeight() / 2);
@@ -475,15 +481,40 @@ for (int i = 0; i < 40; i++)
         getBatch().end();
     }
     int counter = 0;
+    double savekozep = 0;
     public void act(float delta) {
         super.act(delta);
         if(seton){counter++;
         if(seton)counter++;
-            if (counter % MathUtils.random(8, 100) == 0)
+            if (counter % MathUtils.random(8, 100) == 0 && fo != 0)
                 createParticles(getViewport().getWorldWidth() / 2, getViewport().getWorldHeight() + 10);
         if(counter > 800){
-            System.out.println("asd");
+            info.setText("Víz állása: "+kozep);
+            System.out.println(("Víz állása: "+kozep));
         }}
+        if(seton && counter >800 && counter%50==0){
+            kifolyo = fo;
+            if(csapbool1) kifolyo -= csapv1;
+            if(csapbool2) kifolyo -= csapv2;
+            if(csapbool3) kifolyo -= csapv3;
+            if(csapbool4) kifolyo -= csapv4;
+            kozep += kifolyo;
+            if(kozep < 870 && (savekozep == 0 || savekozep-kozep > 7)){
+                savekozep = kozep;
+                if(csapbool4){d = createRectangle((float)26.11, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians); csapbool4 = false;}
+                else if (csapbool3){c = createRectangle((float)19.45, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians); csapbool3 = false;}
+                else if (csapbool2){b = createRectangle((float)12.79, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians); csapbool2 = false;}
+                else if (csapbool1){a = createRectangle((float)6.13, 15, (float)3.75,(float)0.1, 0* MathUtils.degreesToRadians); csapbool1 = false;}
+
+            }
+            else if(kozep > 930 && (savekozep == 0 || savekozep-kozep < 7)){
+                savekozep = kozep;
+                if(!csapbool1 && csapv1 != 0){mWorld.destroyBody(a); csapbool1 = true;}
+                else if (!csapbool2 && csapv2 != 0){mWorld.destroyBody(b); csapbool2 = true;}
+                else if (!csapbool3 && csapv3 != 0){mWorld.destroyBody(c); csapbool3 = true;}
+                else if (!csapbool4 && csapv4 != 0){mWorld.destroyBody(d); csapbool4 = true;}
+            }
+        }
     }
 
     @Override
