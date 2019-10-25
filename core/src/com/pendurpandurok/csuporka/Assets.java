@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -74,6 +75,7 @@ public class Assets {
     public static final AssetDescriptor<Texture> MINUS = new AssetDescriptor<Texture>("minus.png", Texture.class);
     public static final AssetDescriptor<Texture> MENU = new AssetDescriptor<Texture>("menu-icon.png", Texture.class);
     public static final AssetDescriptor<Texture> DARK = new AssetDescriptor<Texture>("ui_textures/dark.png", Texture.class);
+    public static final AssetDescriptor<Music> MUSIC = new AssetDescriptor<Music>("music/water.mp3", Music.class);
 
 
 
@@ -114,6 +116,7 @@ public class Assets {
         manager.load(MINUS);
         manager.load(MENU);
         manager.load(DARK);
+        manager.load(MUSIC);
 
 
         manager.load(ALEGREYAREGULAR_FONT);

@@ -61,9 +61,10 @@ public class MenuStage extends MyStage {
     OneSpriteStaticActor vodor2;
 
     public MenuStage(Batch batch, MyGdxGame game) {
-
-
         super(new ExtendViewport(1080 / 32f, 1920 / 32f), batch, game);
+
+        Assets.manager.get(Assets.MUSIC).stop();
+
         System.out.println( getCamera().viewportWidth);
         rw = new RealisticWater(batch, getCamera(), getViewport().getWorldWidth(), getViewport().getWorldHeight());
         bg = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER));

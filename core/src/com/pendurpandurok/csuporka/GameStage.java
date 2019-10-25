@@ -1,6 +1,7 @@
 package com.pendurpandurok.csuporka;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -14,10 +15,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 
 import finnstr.libgdx.liquidfun.ColorParticleRenderer;
@@ -33,7 +36,7 @@ import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 public class GameStage extends MyStage {
 
-    private World mWorld;
+    public World mWorld;
     private ParticleSystem mParticleSystem;
     private ColorParticleRenderer mParticleDebugRenderer;
     private Box2DDebugRenderer mDebugRenderer;
@@ -95,11 +98,19 @@ public class GameStage extends MyStage {
     public ArrayList<Body> bodyk = new ArrayList<Body>();
 
 
+    Music m = Assets.manager.get(Assets.MUSIC);
+
+
     private HUD hud;
+
+    ArrayList<Duck> ducks = new ArrayList<>();
 
     public GameStage(Batch batch, MyGdxGame game, HUD hud) {
         super(new ExtendViewport(1080 / 32, 1920 / 32), batch, game);
         this.hud = hud;
+
+        m.play();
+        m.setVolume(0.1f);
 
         bg = new OneSpriteStaticActor(Assets.manager.get(Assets.HATTER));
         bg.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
@@ -183,11 +194,6 @@ public class GameStage extends MyStage {
         createRectangle(29, 75, (float)0.1, 30, 0* MathUtils.degreesToRadians);
         createRectangle((float)17.8, (float)52.8, (float)0.1, 3, 0* MathUtils.degreesToRadians);
         createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()+10);
-
-
-        kacsa = new OneSpriteStaticActor(Assets.manager.get(Assets.KACSA));
-        kacsa.setSize(kacsa.getWidth() / 300, kacsa.getHeight() / 300);
-        kacsa.setVisible(false);
 
         var1 = new MyLabel(csapv1+"", game.getLabelStyle());
         var1.setPosition(4.6f,-10);
@@ -345,7 +351,10 @@ public class GameStage extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if (seton)spawnKacsa(x, y);
+                if (seton) {
+                    if(x >= t.getX() && x <= t.getX() + t.getWidth() - 1)
+                        if(y >= t.getY() && y <= t.getY() + t.getHeight() - 1) spawnKacsa(x - 1, y - 1);
+                }
                 else{
                     seton = true;
                     mWorld.destroyBody(fedel);
@@ -353,7 +362,8 @@ public class GameStage extends MyStage {
                 }
             }
         });
-for (int i = 0; i < 40; i++)
+
+        for (int i = 0; i < 40; i++)
         createParticles(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()/2);
 
 
@@ -362,19 +372,7 @@ for (int i = 0; i < 40; i++)
     }
 
     public void spawnKacsa(float x, float y) {
-        if (kacsaSpawned == true) return;
-
-        kacsaSpawned = true;
-        kacsaphsy = createCircleBody(x, y, 2f);
-        kacsa.setVisible(true);
-    }
-
-    public void destroyKacsa() {
-        if(kacsaSpawned == false) return;
-
-        kacsaSpawned = false;
-        kacsa.setVisible(false);
-        mWorld.destroyBody(kacsaphsy);
+        ducks.add(new Duck(this, x, y));
     }
 
     public Body createRectangle(float posX, float posY, float width, float height, float angle) {
@@ -482,10 +480,11 @@ for (int i = 0; i < 40; i++)
         varfo.draw(getBatch(),1);
         //info.draw(getBatch(),1);
 
-        if(kacsaSpawned) {
-            kacsa.setPosition(kacsaphsy.getPosition().x - kacsa.getWidth() / 2, kacsaphsy.getPosition().y - kacsa.getHeight() / 2);
-            kacsa.draw(getBatch(), 1);
+
+        for(int i = 0; i < ducks.size(); i++) {
+            ducks.get(i).draw();
         }
+
         getBatch().end();
     }
     int counter = 0;
@@ -497,13 +496,15 @@ for (int i = 0; i < 40; i++)
 
 
         if(seton){counter++;
-        if(seton)counter++;
-            if (counter % MathUtils.random(8, 100) == 0 && fo != 0)
-                createParticles(getViewport().getWorldWidth() / 2, getViewport().getWorldHeight() + 10);
-        if(counter > 800){
-            hud.updateText("Víz állása: "+kozep);
-            System.out.println(("Víz állása: "+kozep));
-        }}
+            if(seton)counter++;
+                if (counter % MathUtils.random(8, 100) == 0 && fo != 0)
+                    createParticles(getViewport().getWorldWidth() / 2, getViewport().getWorldHeight() + 10);
+
+            if(counter > 800){
+                hud.updateText("Víz állása: "+kozep);
+                System.out.println(("Víz állása: "+kozep));
+            }
+        }
         if(seton && counter >800 && counter%50==0){
             kifolyo = fo;
             if(csapbool1) kifolyo -= csapv1;
@@ -526,6 +527,18 @@ for (int i = 0; i < 40; i++)
                 else if (!csapbool3 && csapv3 != 0){mWorld.destroyBody(c); csapbool3 = true;}
                 else if (!csapbool4 && csapv4 != 0){mWorld.destroyBody(d); csapbool4 = true;}
             }
+        }
+
+
+        Array<Body> bodiez = new Array<Body>();
+        mWorld.getBodies(bodiez);
+        for(int i = 0; i < bodiez.size; i++) {
+            Body b = bodiez.get(i);
+
+            if(b.getPosition().x + 10 <= 0) { mWorld.destroyBody(b); bodiez.removeIndex(i); continue;}
+            if(b.getPosition().x > getViewport().getWorldWidth()) { mWorld.destroyBody(b); bodiez.removeIndex(i); continue;}
+            if(b.getPosition().y + 10 <= 0) { mWorld.destroyBody(b); bodiez.removeIndex(i); continue;}
+
         }
     }
 

@@ -6,6 +6,8 @@ import com.pendurpandurok.csuporka.MyGdxGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		System.setProperty("user.name", "Public");
+
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 960;
 		config.width = 540;
